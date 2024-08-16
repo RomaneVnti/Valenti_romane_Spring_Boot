@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72f64140-b524-4d4d-b3c2-f3f86a26c13d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/MessageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/MessageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/model/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/config/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/model/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/test" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,30 +23,30 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2kOQbcnZu7rzQGMCJqZPRpzEoqd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JAR Application.SafetyNet-1.0-SNAPSHOT.jar.executor": "Run",
-    "Maven.SafetyNet [clean,install].executor": "Run",
-    "Maven.SafetyNet [clean,package].executor": "Run",
-    "Maven.SafetyNet [java,-jar...].executor": "Run",
-    "Maven.SafetyNet [java...].executor": "Run",
-    "Maven.SafetyNet [spring-boot:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "dev",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JAR Application.SafetyNet-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SafetyNet [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SafetyNet [clean,package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SafetyNet [java,-jar...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SafetyNet [java...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SafetyNet [spring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Maven.SafetyNet [spring-boot:run]">
     <configuration name="SafetyNet-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/SafetyNet-1.0-SNAPSHOT.jar" />
@@ -129,6 +124,13 @@
         <item itemvalue="JAR Application.SafetyNet-1.0-SNAPSHOT.jar" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
