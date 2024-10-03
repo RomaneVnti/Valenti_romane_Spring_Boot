@@ -7,7 +7,6 @@ public class DataContainer {
     private List<Firestation> firestations;
     private List<MedicalRecord> medicalrecords;
 
-    // Getters et Setters pour chaque liste
 
     public List<Person> getPersons() {
         return persons;

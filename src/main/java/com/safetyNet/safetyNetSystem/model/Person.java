@@ -9,7 +9,6 @@ public class Person {
     private String phone;
     private String email;
 
-    // Constructeurs
     public Person() {
     }
 
@@ -80,7 +79,6 @@ public class Person {
         this.email = email;
     }
 
-    // toString() pour un affichage pratique
     @Override
     public String toString() {
         return "Person{" +
