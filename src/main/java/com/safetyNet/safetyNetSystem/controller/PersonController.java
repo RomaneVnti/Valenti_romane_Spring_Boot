@@ -18,7 +18,7 @@ public class PersonController {
         this.personService = personService;
     }
 
-    // Obtenir toutes les personnes
+    // Obtenir toutes les personnes sur la liste
     @GetMapping
     public List<Person> getAllPersons() {
         return personService.getAllPersons();
@@ -56,7 +56,7 @@ public class PersonController {
         if (removed) {
             return ResponseEntity.ok("Person deleted successfully.");
         } else {
-            return ResponseEntity.notFound().build(); // Personne non trouvée
+            return ResponseEntity.notFound().build();
         }
     }
 }

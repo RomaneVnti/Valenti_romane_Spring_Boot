@@ -12,20 +12,20 @@ import java.util.Optional;
 public class MedicalRecordService {
 
     private final DataContainer dataContainer;
-    private final DataLoaderUtil dataLoaderUtil; // Ajout d'une instance de DataLoaderUtil
+    private final DataLoaderUtil dataLoaderUtil;
 
     public MedicalRecordService(DataLoaderService dataLoaderService, DataLoaderUtil dataLoaderUtil) {
-        this.dataContainer = dataLoaderService.loadData(); // Charger les données au démarrage
-        this.dataLoaderUtil = dataLoaderUtil; // Initialiser DataLoaderUtil
+        this.dataContainer = dataLoaderService.loadData();
+        this.dataLoaderUtil = dataLoaderUtil;
     }
 
     public List<MedicalRecord> getAllMedicalRecords() {
-        return dataContainer.getMedicalrecords(); // Utilisez le bon nom ici
+        return dataContainer.getMedicalrecords();
     }
 
     public void addMedicalRecord(MedicalRecord medicalRecord) {
         dataContainer.getMedicalrecords().add(medicalRecord);
-        dataLoaderUtil.saveData(dataContainer); // Sauvegarder les données après ajout
+        dataLoaderUtil.saveData(dataContainer);
     }
 
     public Optional<MedicalRecord> updateMedicalRecord(String firstName, String lastName, MedicalRecord updatedRecord) {
@@ -40,7 +40,7 @@ public class MedicalRecordService {
             record.setBirthdate(updatedRecord.getBirthdate());
             record.setMedications(updatedRecord.getMedications());
             record.setAllergies(updatedRecord.getAllergies());
-            dataLoaderUtil.saveData(dataContainer); // Sauvegarder les données après mise à jour
+            dataLoaderUtil.saveData(dataContainer);
             return Optional.of(record);
         }
         return Optional.empty();
@@ -51,7 +51,7 @@ public class MedicalRecordService {
         boolean removed = medicalRecords.removeIf(record -> record.getFirstName().equals(firstName) && record.getLastName().equals(lastName));
 
         if (removed) {
-            dataLoaderUtil.saveData(dataContainer); // Sauvegarder les données après suppression
+            dataLoaderUtil.saveData(dataContainer);
         }
         return removed;
     }

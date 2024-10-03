@@ -19,7 +19,7 @@ public class FirestationService {
         this.dataLoaderUtil = dataLoaderUtil;
     }
 
-    // Ajouter un mapping caserne/adresse
+    // Ajouter une caserne/adresse
     public void addFirestation(Firestation firestation) {
         dataContainer.getFirestations().add(firestation);
         dataLoaderUtil.saveData(dataContainer);
@@ -42,7 +42,7 @@ public class FirestationService {
         return Optional.empty();
     }
 
-    // Supprimer un mapping caserne/adresse
+    // Supprimer une caserne/adresse
     public boolean deleteFirestation(String address) {
         List<Firestation> firestations = dataContainer.getFirestations();
         boolean removed = firestations.removeIf(f -> f.getAddress().equals(address));

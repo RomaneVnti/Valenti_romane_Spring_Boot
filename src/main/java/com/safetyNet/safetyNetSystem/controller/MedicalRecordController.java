@@ -18,12 +18,6 @@ public class MedicalRecordController {
         this.medicalRecordService = medicalRecordService;
     }
 
-    // Obtenir tous les dossiers médicaux
-    @GetMapping
-    public List<MedicalRecord> getAllMedicalRecords() {
-        return medicalRecordService.getAllMedicalRecords();
-    }
-
     // Ajouter un dossier médical
     @PostMapping
     public ResponseEntity<String> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {

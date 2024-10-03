@@ -17,7 +17,7 @@ public class FirestationController {
         this.firestationService = firestationService;
     }
 
-    // Ajouter un mapping caserne/adresse
+    // Ajouter une caserne/adresse
     @PostMapping
     public ResponseEntity<String> addFirestation(@RequestBody Firestation firestation) {
         firestationService.addFirestation(firestation);
@@ -38,7 +38,7 @@ public class FirestationController {
         }
     }
 
-    // Supprimer un mapping caserne/adresse
+    // Supprimer une caserne/adresse
     @DeleteMapping("/{address}")
     public ResponseEntity<String> deleteFirestation(@PathVariable String address) {
         boolean removed = firestationService.deleteFirestation(address);
