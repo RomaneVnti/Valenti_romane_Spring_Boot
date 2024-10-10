@@ -4,6 +4,7 @@ import com.safetyNet.safetyNetSystem.model.DataContainer;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Service;
+import com.safetyNet.safetyNetSystem.model.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +55,12 @@ public class MedicalRecordService {
             dataLoaderUtil.saveData(dataContainer);
         }
         return removed;
+    }
+
+    public Optional<MedicalRecord> getMedicalRecordByPerson(Person person) {
+        return dataContainer.getMedicalrecords().stream()
+                .filter(record -> record.getFirstName().equals(person.getFirstName()) &&
+                        record.getLastName().equals(person.getLastName()))
+                .findFirst();
     }
 }

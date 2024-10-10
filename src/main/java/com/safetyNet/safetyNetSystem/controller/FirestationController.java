@@ -4,6 +4,10 @@ import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.service.FirestationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -48,5 +52,11 @@ public class FirestationController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // Récupérer les personnes couvertes par une caserne
+    @GetMapping("")
+    public FirestationResponse getPersonsCoveredByStation(@RequestParam String stationNumber) {
+        return firestationService.getPersonsCoveredByStation(stationNumber);
     }
 }
