@@ -55,7 +55,7 @@ public class FirestationController {
     }
 
     // Récupérer les personnes couvertes par une caserne
-    @GetMapping("")
+    @GetMapping
     public FirestationResponse getPersonsCoveredByStation(@RequestParam String stationNumber) {
         return firestationService.getPersonsCoveredByStation(stationNumber);
     }
