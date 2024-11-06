@@ -1,17 +1,14 @@
 package com.safetyNet.safetyNetSystem.dto;
 
-public class PersonInfo {
+public class ChildInfo {
     private String firstName;
     private String lastName;
-    private String address;
-    private String phone;
+    private int age; // Ajouter l'âge
 
-
-    public PersonInfo(String firstName, String lastName, String address, String phone) {
+    public ChildInfo(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.phone = phone;
+        this.age = age; // Initialiser l'âge
     }
 
     public String getFirstName() {
@@ -30,19 +27,11 @@ public class PersonInfo {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public int getAge() {
+        return age;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAge(int age) {
+        this.age = age;
     }
 }

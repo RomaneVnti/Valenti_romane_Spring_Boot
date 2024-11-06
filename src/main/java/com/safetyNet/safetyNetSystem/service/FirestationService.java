@@ -68,8 +68,6 @@ public class FirestationService {
         return removed;
     }
 
-    //Créer un DAO
-    //Dans personService avoir method getPersonsByAddress
     public FirestationResponse getPersonsCoveredByStation(String stationNumber) {
         List<String> addresses = dataContainer.getFirestations().stream()
                 .filter(f -> f.getStation().equals(stationNumber))
@@ -82,6 +80,7 @@ public class FirestationService {
 
         for (Person person : dataContainer.getPersons()) {
             if (addresses.contains(person.getAddress())) {
+                // Obtenez le dossier médical correspondant à la personne
                 Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
                 if (medicalRecordOptional.isPresent()) {
                     MedicalRecord medicalRecord = medicalRecordOptional.get();
