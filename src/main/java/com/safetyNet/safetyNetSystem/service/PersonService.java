@@ -1,14 +1,15 @@
 package com.safetyNet.safetyNetSystem.service;
 
-import com.safetyNet.safetyNetSystem.model.DataContainer;
+import com.safetyNet.safetyNetSystem.dao.PersonDao;
 import com.safetyNet.safetyNetSystem.model.Person;
+import com.safetyNet.safetyNetSystem.model.DataContainer;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
-import org.springframework.stereotype.Service;
 import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
 import com.safetyNet.safetyNetSystem.util.DateUtil;
 import com.safetyNet.safetyNetSystem.dto.ChildInfo;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,69 +18,53 @@ import java.util.ArrayList;
 @Service
 public class PersonService {
 
-    private final DataContainer dataContainer;
+    private final PersonDao personDao;
     private final DataLoaderUtil dataLoaderUtil;
-
     private final MedicalRecordService medicalRecordService;
 
-    public PersonService(DataLoaderService dataLoaderService, DataLoaderUtil dataLoaderUtil, MedicalRecordService medicalRecordService) {
-        this.dataContainer = dataLoaderService.loadData();
+    public PersonService(PersonDao personDao, DataLoaderUtil dataLoaderUtil, MedicalRecordService medicalRecordService) {
+        this.personDao = personDao;
         this.dataLoaderUtil = dataLoaderUtil;
         this.medicalRecordService = medicalRecordService;
     }
 
     public List<Person> getAllPersons() {
-        return dataContainer.getPersons();
+        return personDao.findAll();
     }
 
     public void addPerson(Person person) {
-        dataContainer.getPersons().add(person);
+        personDao.addPerson(person);
+        DataContainer dataContainer = new DataContainer();
+        dataContainer.setPersons(personDao.findAll()); // Utilise setPersons pour initialiser les données
         dataLoaderUtil.saveData(dataContainer);
     }
 
     public Optional<Person> updatePerson(String firstName, String lastName, Person updatedPerson) {
-        List<Person> persons = dataContainer.getPersons();
-
-        Optional<Person> existingPerson = persons.stream()
-                .filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
-                .findFirst();
+        Optional<Person> existingPerson = personDao.updatePerson(firstName, lastName, updatedPerson);
 
         if (existingPerson.isPresent()) {
-            Person person = existingPerson.get();
-
-            person.setFirstName(updatedPerson.getFirstName());
-            person.setLastName(updatedPerson.getLastName());
-            person.setAddress(updatedPerson.getAddress());
-            person.setCity(updatedPerson.getCity());
-            person.setZip(updatedPerson.getZip());
-            person.setPhone(updatedPerson.getPhone());
-            person.setEmail(updatedPerson.getEmail());
-
+            DataContainer dataContainer = new DataContainer();
+            dataContainer.setPersons(personDao.findAll()); // Utilise setPersons pour initialiser les données
             dataLoaderUtil.saveData(dataContainer);
-            return Optional.of(person);
         }
 
-        return Optional.empty();
+        return existingPerson;
     }
 
-
     public boolean deletePerson(String firstName, String lastName) {
-        List<Person> persons = dataContainer.getPersons();
-        boolean removed = persons.removeIf(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName));
+        boolean removed = personDao.deletePerson(firstName, lastName);
 
         if (removed) {
+            DataContainer dataContainer = new DataContainer();
+            dataContainer.setPersons(personDao.findAll()); // Utilise setPersons pour initialiser les données
             dataLoaderUtil.saveData(dataContainer);
         }
 
         return removed;
     }
 
-
     public ChildrenAlertResponse getChildAlertByAddress(String address) {
-        List<Person> personsAtAddress = dataContainer.getPersons().stream()
-                .filter(person -> person.getAddress().equals(address))
-                .toList();
-
+        List<Person> personsAtAddress = personDao.findByAddress(address);
         List<ChildInfo> children = new ArrayList<>();
         List<PersonInfo> adults = new ArrayList<>();
 
@@ -110,6 +95,4 @@ public class PersonService {
 
         return new ChildrenAlertResponse(children, adults);
     }
-
-
 }
