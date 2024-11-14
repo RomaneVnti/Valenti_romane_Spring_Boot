@@ -55,7 +55,13 @@ public class PersonDAO {
     // Supprimer une personne
     public boolean deletePerson(String firstName, String lastName) {
         List<Person> persons = dataContainer.getPersons();
-        boolean removed = persons.removeIf(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName));
+        boolean removed = persons.removeIf(p -> {
+            boolean match = p.getFirstName().equals(firstName) && p.getLastName().equals(lastName);
+            if (match) {
+                System.out.println("Suppression de: " + p.getFirstName() + " " + p.getLastName());
+            }
+            return match;
+        }); // Fermeture de la méthode removeIf ici
 
         if (removed) {
             dataLoaderUtil.saveData(dataContainer);

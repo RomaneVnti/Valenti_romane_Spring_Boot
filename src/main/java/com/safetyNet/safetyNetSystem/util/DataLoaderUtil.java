@@ -30,17 +30,19 @@ public class DataLoaderUtil {
         // Étape 1 : Charger les données existantes depuis le fichier
         DataContainer existingDataContainer = loadDataFromFile();
 
-        // Étape 2 : Fusionner les nouvelles données avec celles existantes
-        existingDataContainer.getPersons().addAll(dataContainer.getPersons()); // Ajouter les personnes
-        existingDataContainer.getFirestations().addAll(dataContainer.getFirestations()); // Ajouter les casernes
+        // Étape 2 : Remplacer les données existantes avec les nouvelles données
+        // Met à jour la liste des personnes dans le fichier
+        existingDataContainer.setPersons(dataContainer.getPersons()); // Remplacer les personnes
+        existingDataContainer.setFirestations(dataContainer.getFirestations()); // Remplacer les casernes
 
-        // Étape 3 : Réécrire le fichier avec les nouvelles données
+        // Étape 3 : Réécrire le fichier avec les données mises à jour
         try {
             objectMapper.writeValue(new File(dataFilePath), existingDataContainer);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private DataContainer loadDataFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();

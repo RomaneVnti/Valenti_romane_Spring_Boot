@@ -31,9 +31,10 @@ public class FirestationController {
     // Mettre à jour le numéro de caserne d'une adresse
     @PutMapping("/{address}")
     public ResponseEntity<String> updateFirestation(
-            @PathVariable String address,
-            @RequestBody Firestation firestation) {
-        Optional<Firestation> updatedFirestation = firestationService.updateFirestation(address, firestation.getStation());
+            @PathVariable String address,  // Adresse de la caserne passée en PathVariable
+            @RequestBody Firestation firestation) {  // Object Firestation passé dans le body
+        // Appeler le service avec l'adresse et l'objet Firestation
+        Optional<Firestation> updatedFirestation = firestationService.updateFirestation(address, firestation);
 
         if (updatedFirestation.isPresent()) {
             return ResponseEntity.ok("Firestation mapping updated successfully.");
