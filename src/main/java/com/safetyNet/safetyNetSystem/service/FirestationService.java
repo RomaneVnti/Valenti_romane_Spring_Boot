@@ -3,17 +3,14 @@ package com.safetyNet.safetyNetSystem.service;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
-import org.springframework.stereotype.Service;
-import com.safetyNet.safetyNetSystem.util.DateUtil;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
+import com.safetyNet.safetyNetSystem.util.DateUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,49 +19,37 @@ public class FirestationService {
 
     private final DataContainer dataContainer;
     private final DataLoaderUtil dataLoaderUtil;
-
     private final MedicalRecordService medicalRecordService;
-
 
     public FirestationService(DataLoaderService dataLoaderService, DataLoaderUtil dataLoaderUtil, MedicalRecordService medicalRecordService) {
         this.dataContainer = dataLoaderService.loadData();
         this.dataLoaderUtil = dataLoaderUtil;
         this.medicalRecordService = medicalRecordService;
-
     }
 
-    // Ajouter une caserne/adresse
     public void addFirestation(Firestation firestation) {
         dataContainer.getFirestations().add(firestation);
         dataLoaderUtil.saveData(dataContainer);
     }
 
-    // Mettre à jour le numéro de caserne d'une adresse
     public Optional<Firestation> updateFirestation(String address, String station) {
-        List<Firestation> firestations = dataContainer.getFirestations();
-
-        Optional<Firestation> existingFirestation = firestations.stream()
+        Optional<Firestation> existingFirestation = dataContainer.getFirestations().stream()
                 .filter(f -> f.getAddress().equals(address))
                 .findFirst();
 
-        if (existingFirestation.isPresent()) {
-            Firestation firestationToUpdate = existingFirestation.get();
+        existingFirestation.ifPresent(firestationToUpdate -> {
             firestationToUpdate.setStation(station);
             dataLoaderUtil.saveData(dataContainer);
-            return Optional.of(firestationToUpdate);
-        }
-        return Optional.empty();
+        });
+
+        return existingFirestation;
     }
 
-    // Supprimer une caserne/adresse
     public boolean deleteFirestation(String address) {
-        List<Firestation> firestations = dataContainer.getFirestations();
-        boolean removed = firestations.removeIf(f -> f.getAddress().equals(address));
-
+        boolean removed = dataContainer.getFirestations().removeIf(f -> f.getAddress().equals(address));
         if (removed) {
             dataLoaderUtil.saveData(dataContainer);
         }
-
         return removed;
     }
 
@@ -80,7 +65,6 @@ public class FirestationService {
 
         for (Person person : dataContainer.getPersons()) {
             if (addresses.contains(person.getAddress())) {
-                // Obtenez le dossier médical correspondant à la personne
                 Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
                 if (medicalRecordOptional.isPresent()) {
                     MedicalRecord medicalRecord = medicalRecordOptional.get();
@@ -91,17 +75,10 @@ public class FirestationService {
                         numberOfChildren++;
                     }
 
-                    PersonInfo personInfo = new PersonInfo(
-                            person.getFirstName(),
-                            person.getLastName(),
-                            person.getAddress(),
-                            person.getPhone()
-                    );
-                    personInfoList.add(personInfo);
+                    personInfoList.add(new PersonInfo(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
                 }
             }
         }
-
         return new FirestationResponse(personInfoList, numberOfAdults, numberOfChildren);
     }
 }
