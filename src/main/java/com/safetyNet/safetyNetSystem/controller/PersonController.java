@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +25,13 @@ public class PersonController {
 
     // Obtenir toutes les personnes sur la liste
     @GetMapping("/person")
-    public List<Person> getAllPersons() {
+    public List<Person> getAllPersons() throws IOException {
         return personService.getAllPersons();
     }
 
     // Ajouter une nouvelle personne
     @PostMapping("/person")
-    public ResponseEntity<String> addPerson(@RequestBody Person person) {
+    public ResponseEntity<String> addPerson(@RequestBody Person person) throws IOException {
         personService.addPerson(person);
         return ResponseEntity.ok("Person added successfully.");
     }
@@ -40,7 +41,7 @@ public class PersonController {
     public ResponseEntity<String> updatePerson(
             @PathVariable String firstName,
             @PathVariable String lastName,
-            @RequestBody Person updatedPerson) {
+            @RequestBody Person updatedPerson) throws IOException {
         Optional<Person> updated = personService.updatePerson(firstName, lastName, updatedPerson);
 
         if (updated.isPresent()) {
@@ -54,7 +55,7 @@ public class PersonController {
     @DeleteMapping("/person/{firstName}/{lastName}")
     public ResponseEntity<String> deletePerson(
             @PathVariable String firstName,
-            @PathVariable String lastName) {
+            @PathVariable String lastName) throws IOException {
         boolean removed = personService.deletePerson(firstName, lastName);
 
         if (removed) {
@@ -65,7 +66,7 @@ public class PersonController {
     }
 
     @GetMapping("/childAlert")
-    public ChildrenAlertResponse getChildAlert(@RequestParam String address) {
+    public ChildrenAlertResponse getChildAlert(@RequestParam String address) throws IOException {
         return personService.getChildAlertByAddress(address);
     }
 }

@@ -16,7 +16,7 @@ public class MedicalRecordService {
     private final DataLoaderUtil dataLoaderUtil;
 
     public MedicalRecordService(DataLoaderService dataLoaderService, DataLoaderUtil dataLoaderUtil) {
-        this.dataContainer = dataLoaderService.loadData();
+        this.dataContainer = dataLoaderService.getDataContainer();
         this.dataLoaderUtil = dataLoaderUtil;
     }
 
