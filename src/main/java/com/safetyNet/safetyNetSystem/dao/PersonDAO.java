@@ -1,6 +1,7 @@
 package com.safetyNet.safetyNetSystem.dao;
 
 import com.safetyNet.safetyNetSystem.model.Person;
+import com.safetyNet.safetyNetSystem.service.DataLoaderService;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
@@ -11,11 +12,15 @@ import java.util.Optional;
 public class PersonDAO {
 
     private final DataLoaderUtil dataLoaderUtil;
-    private final DataContainer dataContainer;
+    private final DataLoaderService dataLoaderService;
+    private DataContainer dataContainer;
 
-    public PersonDAO(DataLoaderUtil dataLoaderUtil) {
+    // Constructeur pour initialiser DataLoaderUtil et DataLoaderService
+    public PersonDAO(DataLoaderUtil dataLoaderUtil, DataLoaderService dataLoaderService) {
         this.dataLoaderUtil = dataLoaderUtil;
-        this.dataContainer = dataLoaderUtil.loadData();  // Assurez-vous que la méthode loadData charge bien le DataContainer.
+        this.dataLoaderService = dataLoaderService;
+        // Charger les données via DataLoaderService
+        this.dataContainer = dataLoaderService.getDataContainer();  // Utilisation de DataLoaderService pour obtenir le DataContainer
     }
 
     // Récupérer toutes les personnes
@@ -26,7 +31,7 @@ public class PersonDAO {
     // Ajouter une personne
     public void addPerson(Person person) {
         dataContainer.getPersons().add(person);
-        dataLoaderUtil.saveData(dataContainer);
+        dataLoaderService.saveData();  // Sauvegarder les données après ajout
     }
 
     // Mettre à jour une personne
@@ -45,7 +50,7 @@ public class PersonDAO {
             person.setZip(updatedPerson.getZip());
             person.setPhone(updatedPerson.getPhone());
             person.setEmail(updatedPerson.getEmail());
-            dataLoaderUtil.saveData(dataContainer);
+            dataLoaderService.saveData();  // Sauvegarder les données après mise à jour
             return Optional.of(person);
         }
 
@@ -61,10 +66,10 @@ public class PersonDAO {
                 System.out.println("Suppression de: " + p.getFirstName() + " " + p.getLastName());
             }
             return match;
-        }); // Fermeture de la méthode removeIf ici
+        });
 
         if (removed) {
-            dataLoaderUtil.saveData(dataContainer);
+            dataLoaderService.saveData();  // Sauvegarder les données après suppression
         }
         return removed;
     }

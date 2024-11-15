@@ -13,13 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
 @Service
 public class PersonService {
 
     private final PersonDAO personDAO;
+
+    @Lazy  // Ajout de @Lazy sur MedicalRecordService pour éviter la dépendance circulaire immédiate
     private final MedicalRecordService medicalRecordService;
 
-    public PersonService(PersonDAO personDAO, MedicalRecordService medicalRecordService) {
+    @Autowired
+    public PersonService(PersonDAO personDAO, @Lazy MedicalRecordService medicalRecordService) {
         this.personDAO = personDAO;
         this.medicalRecordService = medicalRecordService;
     }
@@ -78,5 +85,11 @@ public class PersonService {
         }
 
         return new ChildrenAlertResponse(children, adults);
+    }
+
+    public Optional<Person> getPersonByFirstNameAndLastName(String firstName, String lastName) {
+        return personDAO.getAllPersons().stream()
+                .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
+                .findFirst();
     }
 }

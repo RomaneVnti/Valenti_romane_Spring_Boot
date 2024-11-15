@@ -1,10 +1,10 @@
 package com.safetyNet.safetyNetSystem.service;
 
-import com.safetyNet.safetyNetSystem.model.DataContainer;
+import com.safetyNet.safetyNetSystem.dao.MedicalRecordDAO;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
+import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Service;
-import com.safetyNet.safetyNetSystem.model.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,55 +12,40 @@ import java.util.Optional;
 @Service
 public class MedicalRecordService {
 
-    private final DataContainer dataContainer;
+    private final MedicalRecordDAO medicalRecordDAO;
     private final DataLoaderUtil dataLoaderUtil;
 
-    public MedicalRecordService(DataLoaderService dataLoaderService, DataLoaderUtil dataLoaderUtil) {
-        this.dataContainer = dataLoaderService.getDataContainer();
+    // Constructeur pour initialiser le DAO et DataLoaderUtil
+    public MedicalRecordService(MedicalRecordDAO medicalRecordDAO, DataLoaderUtil dataLoaderUtil) {
+        this.medicalRecordDAO = medicalRecordDAO;
         this.dataLoaderUtil = dataLoaderUtil;
     }
 
+    // Récupérer tous les enregistrements médicaux
     public List<MedicalRecord> getAllMedicalRecords() {
-        return dataContainer.getMedicalrecords();
+        return medicalRecordDAO.getAllMedicalRecords();
     }
 
+    // Ajouter un enregistrement médical
     public void addMedicalRecord(MedicalRecord medicalRecord) {
-        dataContainer.getMedicalrecords().add(medicalRecord);
-        dataLoaderUtil.saveData(dataContainer);
+        medicalRecordDAO.addMedicalRecord(medicalRecord);
     }
 
+    // Mettre à jour un enregistrement médical
     public Optional<MedicalRecord> updateMedicalRecord(String firstName, String lastName, MedicalRecord updatedRecord) {
-        List<MedicalRecord> medicalRecords = dataContainer.getMedicalrecords();
-
-        Optional<MedicalRecord> existingRecord = medicalRecords.stream()
-                .filter(record -> record.getFirstName().equals(firstName) && record.getLastName().equals(lastName))
-                .findFirst();
-
-        if (existingRecord.isPresent()) {
-            MedicalRecord record = existingRecord.get();
-            record.setBirthdate(updatedRecord.getBirthdate());
-            record.setMedications(updatedRecord.getMedications());
-            record.setAllergies(updatedRecord.getAllergies());
-            dataLoaderUtil.saveData(dataContainer);
-            return Optional.of(record);
-        }
-        return Optional.empty();
+        return medicalRecordDAO.updateMedicalRecord(firstName, lastName, updatedRecord);
     }
 
+    // Supprimer un enregistrement médical
     public boolean deleteMedicalRecord(String firstName, String lastName) {
-        List<MedicalRecord> medicalRecords = dataContainer.getMedicalrecords();
-        boolean removed = medicalRecords.removeIf(record -> record.getFirstName().equals(firstName) && record.getLastName().equals(lastName));
-
-        if (removed) {
-            dataLoaderUtil.saveData(dataContainer);
-        }
-        return removed;
+        return medicalRecordDAO.deleteMedicalRecord(firstName, lastName);
     }
 
+    // Récupérer un enregistrement médical d'une personne
+    // Récupérer un enregistrement médical d'une personne
     public Optional<MedicalRecord> getMedicalRecordByPerson(Person person) {
-        return dataContainer.getMedicalrecords().stream()
-                .filter(record -> record.getFirstName().equals(person.getFirstName()) &&
-                        record.getLastName().equals(person.getLastName()))
-                .findFirst();
+        // Utiliser un DAO pour récupérer l'enregistrement médical en fonction du prénom et nom
+        return medicalRecordDAO.getMedicalRecordByPerson(person.getFirstName(), person.getLastName());
     }
+
 }

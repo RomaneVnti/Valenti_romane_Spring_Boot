@@ -1,6 +1,7 @@
 package com.safetyNet.safetyNetSystem.dao;
 
 import com.safetyNet.safetyNetSystem.model.Firestation;
+import com.safetyNet.safetyNetSystem.service.DataLoaderService;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
@@ -11,11 +12,16 @@ import java.util.Optional;
 public class FirestationDAO {
 
     private final DataLoaderUtil dataLoaderUtil;
-    private final DataContainer dataContainer;
+    private final DataLoaderService dataLoaderService;
 
-    public FirestationDAO(DataLoaderUtil dataLoaderUtil) {
+    private DataContainer dataContainer;
+
+    // Constructeur pour initialiser DataLoaderUtil et DataLoaderService
+    public FirestationDAO(DataLoaderUtil dataLoaderUtil, DataLoaderService dataLoaderService) {
         this.dataLoaderUtil = dataLoaderUtil;
-        this.dataContainer = dataLoaderUtil.loadData();  // Assurez-vous que la méthode loadData charge bien le DataContainer.
+        this.dataLoaderService = dataLoaderService;
+        // Charger les données via le DataLoaderService
+        this.dataContainer = dataLoaderService.getDataContainer(); // Utilisation de DataLoaderService pour obtenir le DataContainer
     }
 
     // Récupérer toutes les casernes
@@ -26,7 +32,7 @@ public class FirestationDAO {
     // Ajouter une caserne
     public void addFirestation(Firestation firestation) {
         dataContainer.getFirestations().add(firestation);
-        dataLoaderUtil.saveData(dataContainer);
+        dataLoaderService.saveData();  // Sauvegarder les données après modification
     }
 
     // Mettre à jour une caserne par son adresse
@@ -39,7 +45,7 @@ public class FirestationDAO {
         if (existingFirestation.isPresent()) {
             Firestation firestation = existingFirestation.get();
             firestation.setStation(updatedFirestation.getStation());
-            dataLoaderUtil.saveData(dataContainer);
+            dataLoaderService.saveData();  // Sauvegarder les données après modification
             return Optional.of(firestation);
         }
 
@@ -49,11 +55,16 @@ public class FirestationDAO {
     // Supprimer une caserne par son adresse
     public boolean deleteFirestation(String address) {
         List<Firestation> firestations = dataContainer.getFirestations();
+
+        // Supprimer immédiatement la station de pompiers correspondante
         boolean removed = firestations.removeIf(f -> f.getAddress().equals(address));
 
         if (removed) {
-            dataLoaderUtil.saveData(dataContainer);
+            // Sauvegarder immédiatement les données dans le fichier JSON
+            dataLoaderService.saveData();
         }
+
         return removed;
     }
+
 }

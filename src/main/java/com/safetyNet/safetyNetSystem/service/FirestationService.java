@@ -13,20 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
 @Service
 public class FirestationService {
 
     private final FirestationDAO firestationDAO;
-    private final PersonService personService; // Injection de PersonService
 
+    @Lazy
+    private final PersonService personService;
 
+    @Lazy
     private final MedicalRecordService medicalRecordService;
 
-    public FirestationService(FirestationDAO firestationDAO, MedicalRecordService medicalRecordService, PersonService personService) {
+    @Autowired
+    public FirestationService(FirestationDAO firestationDAO, @Lazy MedicalRecordService medicalRecordService, @Lazy PersonService personService) {
         this.firestationDAO = firestationDAO;
         this.medicalRecordService = medicalRecordService;
         this.personService = personService;
-
     }
 
     // Utiliser le DAO pour récupérer toutes les casernes
@@ -51,41 +57,40 @@ public class FirestationService {
 
     // Obtenir les personnes couvertes par une caserne
     public FirestationResponse getPersonsCoveredByStation(String stationNumber) {
-        // Appeler PersonService pour obtenir toutes les personnes
-        List<Person> allPersons = personService.getAllPersons();  // Appel de PersonService
-
-        // Récupérer toutes les casernes (on suppose que tu as un moyen de récupérer la caserne avec son numéro)
+        // Obtenir toutes les personnes et les casernes
+        List<Person> allPersons = personService.getAllPersons();
         List<Firestation> firestations = firestationDAO.getAllFirestations();
 
-        // Trouver l'adresse correspondant au numéro de la caserne
+        // Trouver l'adresse de la caserne correspondant au stationNumber
         String addressForStation = firestations.stream()
                 .filter(firestation -> firestation.getStation().equals(stationNumber))
                 .map(Firestation::getAddress)
                 .findFirst()
-                .orElse(null); // Si la station n'existe pas, retourner null
+                .orElse(null);
 
+        // Si aucune adresse n'est trouvée pour la caserne, renvoyer une réponse vide
         if (addressForStation == null) {
-            // Si la station n'a pas d'adresse, retourner une réponse vide ou gérer l'erreur
-            return new FirestationResponse(new ArrayList<>(), 0, 0); // Retourne une réponse vide avec 0 adultes et enfants
+            return new FirestationResponse(new ArrayList<>(), 0, 0);
         }
 
-        // Filtrer les personnes par adresse de la caserne
+        // Filtrer les personnes selon l'adresse de la caserne
         List<Person> personsCoveredByStation = allPersons.stream()
-                .filter(person -> person.getAddress().equals(addressForStation)) // Comparer l'adresse de la personne
+                .filter(person -> person.getAddress().equals(addressForStation))
                 .toList();
 
-        // Convertir les objets Person en PersonInfo
+        // Créer des objets PersonInfo et compter les adultes et enfants
         List<PersonInfo> personInfoList = new ArrayList<>();
         int numberOfAdults = 0;
         int numberOfChildren = 0;
 
         for (Person person : personsCoveredByStation) {
+            // Utiliser la méthode modifiée qui prend un objet Person
             Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
             if (medicalRecordOptional.isPresent()) {
                 MedicalRecord medicalRecord = medicalRecordOptional.get();
                 int age = DateUtil.calculateAge(medicalRecord.getBirthdate());
 
-                // Créer un objet PersonInfo et l'ajouter à la liste
+                // Créer un objet PersonInfo avec les données de la personne
                 PersonInfo personInfo = new PersonInfo(
                         person.getFirstName(),
                         person.getLastName(),
@@ -94,7 +99,7 @@ public class FirestationService {
                 );
                 personInfoList.add(personInfo);
 
-                // Compter le nombre d'adultes et d'enfants
+                // Compter le nombre d'adultes et d'enfants en fonction de l'âge
                 if (age < 18) {
                     numberOfChildren++;
                 } else {
@@ -103,9 +108,8 @@ public class FirestationService {
             }
         }
 
-        // Créer la réponse FirestationResponse avec la liste des personnes, le nombre d'adultes et d'enfants
+        // Retourner la réponse avec les informations des personnes et les comptes d'adultes et d'enfants
         return new FirestationResponse(personInfoList, numberOfAdults, numberOfChildren);
     }
-
 
 }

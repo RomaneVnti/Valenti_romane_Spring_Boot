@@ -3,6 +3,10 @@ package com.safetyNet.safetyNetSystem.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import org.springframework.stereotype.Component;
+import com.safetyNet.safetyNetSystem.model.Person;
+import com.safetyNet.safetyNetSystem.model.MedicalRecord;
+import com.safetyNet.safetyNetSystem.model.Firestation;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +34,15 @@ public class DataLoaderUtil {
         // Étape 1 : Charger les données existantes depuis le fichier
         DataContainer existingDataContainer = loadDataFromFile();
 
-        // Étape 2 : Remplacer les données existantes avec les nouvelles données
-        // Met à jour la liste des personnes dans le fichier
-        existingDataContainer.setPersons(dataContainer.getPersons()); // Remplacer les personnes
-        existingDataContainer.setFirestations(dataContainer.getFirestations()); // Remplacer les casernes
+        // Étape 2 : Mettre à jour uniquement les données modifiées
+        // Ajouter ou supprimer les personnes
+        existingDataContainer.setPersons(dataContainer.getPersons());
+
+        // Ajouter ou supprimer les casernes de pompiers
+        existingDataContainer.setFirestations(dataContainer.getFirestations());
+
+        // Ajouter ou supprimer les dossiers médicaux
+        existingDataContainer.setMedicalrecords(dataContainer.getMedicalrecords());
 
         // Étape 3 : Réécrire le fichier avec les données mises à jour
         try {
@@ -42,6 +51,10 @@ public class DataLoaderUtil {
             e.printStackTrace();
         }
     }
+
+
+
+
 
 
     private DataContainer loadDataFromFile() {
