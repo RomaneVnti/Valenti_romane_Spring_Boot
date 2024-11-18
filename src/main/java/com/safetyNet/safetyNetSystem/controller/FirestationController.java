@@ -8,6 +8,8 @@ import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
 
 import java.util.Optional;
 
@@ -59,5 +61,12 @@ public class FirestationController {
     @GetMapping
     public FirestationResponse getPersonsCoveredByStation(@RequestParam String stationNumber) {
         return firestationService.getPersonsCoveredByStation(stationNumber);
+    }
+
+    // Récupérer les numéros de téléphone des personnes couvertes par une caserne
+    @GetMapping("/phones")
+    public ResponseEntity<List<String>> getPhoneNumbersByStation(@RequestParam(name = "firestation") String firestationNumber) {
+        List<String> phoneNumbers = firestationService.getPhoneNumbersByStation(firestationNumber);
+        return ResponseEntity.ok(phoneNumbers);
     }
 }

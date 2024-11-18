@@ -112,4 +112,24 @@ public class FirestationService {
         return new FirestationResponse(personInfoList, numberOfAdults, numberOfChildren);
     }
 
+    // Obtenir les numéros de téléphone des personnes couvertes par une caserne
+    public List<String> getPhoneNumbersByStation(String stationNumber) {
+        // Obtenir toutes les personnes et les casernes
+        List<Person> allPersons = personService.getAllPersons();
+        List<Firestation> firestations = firestationDAO.getAllFirestations();
+
+        // Trouver les adresses correspondant au stationNumber
+        List<String> addressesForStation = firestations.stream()
+                .filter(firestation -> firestation.getStation().equals(stationNumber))
+                .map(Firestation::getAddress)
+                .toList();
+
+        // Filtrer les personnes par adresse et collecter leurs numéros de téléphone
+        return allPersons.stream()
+                .filter(person -> addressesForStation.contains(person.getAddress()))
+                .map(Person::getPhone)
+                .distinct() // Pour éviter les doublons
+                .toList();
+    }
+
 }

@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72f64140-b524-4d4d-b3c2-f3f86a26c13d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dao/MedicalRecordDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dao/FirestationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dao/FirestationDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dao/PersonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dao/PersonDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/DataLoaderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/DataLoaderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/MedicalRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/MedicalRecordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/util/DataLoaderUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/util/DataLoaderUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

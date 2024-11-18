@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonDAO {
@@ -73,4 +74,13 @@ public class PersonDAO {
         }
         return removed;
     }
+
+    public List<String> getPhoneNumbersByAddresses(List<String> addresses) {
+        return dataContainer.getPersons().stream()
+                .filter(person -> addresses.contains(person.getAddress()))
+                .map(Person::getPhone)
+                .distinct() // Élimine les doublons
+                .collect(Collectors.toList());
+    }
+
 }

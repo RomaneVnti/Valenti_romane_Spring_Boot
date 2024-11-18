@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class FirestationDAO {
@@ -65,6 +66,13 @@ public class FirestationDAO {
         }
 
         return removed;
+    }
+
+    public List<String> getAddressesByStation(String stationNumber) {
+        return dataContainer.getFirestations().stream()
+                .filter(firestation -> firestation.getStation().equals(stationNumber))
+                .map(Firestation::getAddress)
+                .collect(Collectors.toList());
     }
 
 }
