@@ -1,11 +1,15 @@
 package com.safetyNet.safetyNetSystem.dto;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class PersonInfo {
     private String firstName;
     private String lastName;
     private String address;
     private String phone;
-
+    private MedicalInfo medicalInfo;  // Ajout de cet attribut
 
     public PersonInfo(String firstName, String lastName, String address, String phone) {
         this.firstName = firstName;
@@ -14,6 +18,7 @@ public class PersonInfo {
         this.phone = phone;
     }
 
+    // Getters et Setters
     public String getFirstName() {
         return firstName;
     }
@@ -44,5 +49,14 @@ public class PersonInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    // Getter et Setter pour MedicalInfo
+    public MedicalInfo getMedicalInfo() {
+        return medicalInfo;
+    }
+
+    public void setMedicalInfo(MedicalInfo medicalInfo) {
+        this.medicalInfo = medicalInfo;
     }
 }

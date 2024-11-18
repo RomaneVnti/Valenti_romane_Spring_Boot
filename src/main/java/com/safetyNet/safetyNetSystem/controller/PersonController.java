@@ -69,4 +69,5 @@ public class PersonController {
     public ChildrenAlertResponse getChildAlert(@RequestParam String address) throws IOException {
         return personService.getChildAlertByAddress(address);
     }
+
 }

@@ -5,6 +5,8 @@ import com.safetyNet.safetyNetSystem.service.FirestationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
+import com.safetyNet.safetyNetSystem.dto.FirestationResponseNoCount;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,5 +70,11 @@ public class FirestationController {
     public ResponseEntity<List<String>> getPhoneNumbersByStation(@RequestParam(name = "firestation") String firestationNumber) {
         List<String> phoneNumbers = firestationService.getPhoneNumbersByStation(firestationNumber);
         return ResponseEntity.ok(phoneNumbers);
+    }
+
+    // Route pour récupérer les informations des habitants et de la caserne à partir de l'adresse
+    @GetMapping("/fire")
+    public FirestationResponseNoCount getFirestationInfoByAddress(@RequestParam String address) {
+        return firestationService.getFirestationInfoByAddress(address);
     }
 }

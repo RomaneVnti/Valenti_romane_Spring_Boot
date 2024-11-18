@@ -2,6 +2,8 @@ package com.safetyNet.safetyNetSystem.service;
 
 import com.safetyNet.safetyNetSystem.dao.FirestationDAO;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
+import com.safetyNet.safetyNetSystem.dto.FirestationResponseNoCount;
+
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.model.Person;
@@ -131,5 +133,29 @@ public class FirestationService {
                 .distinct() // Pour éviter les doublons
                 .toList();
     }
+
+    // Route : Obtenir les informations des habitants et de la caserne desservant l'adresse
+    public FirestationResponseNoCount getFirestationInfoByAddress(String address) {
+        // Trouver la caserne desservant l'adresse
+        List<Firestation> firestations = firestationDAO.getAllFirestations();
+        Firestation firestation = firestations.stream()
+                .filter(f -> f.getAddress().equals(address))
+                .findFirst()
+                .orElse(null);
+
+        // Si aucune caserne n'est trouvée pour cette adresse
+        if (firestation == null) {
+            return new FirestationResponseNoCount(new ArrayList<>(), null);  // Retour avec une liste vide et stationNumber null
+        }
+
+        String stationNumber = firestation.getStation(); // Numéro de la caserne
+        List<PersonInfo> personsInfo = personService.getPersonsWithMedicalInfoByAddress(address, true);
+
+        // Retourner la réponse sans inclure `numberOfAdults` et `numberOfChildren`
+        return new FirestationResponseNoCount(personsInfo, stationNumber);
+    }
+
+
+
 
 }

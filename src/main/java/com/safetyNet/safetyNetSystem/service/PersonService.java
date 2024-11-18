@@ -1,6 +1,7 @@
 package com.safetyNet.safetyNetSystem.service;
 
 import com.safetyNet.safetyNetSystem.dao.PersonDAO;
+import com.safetyNet.safetyNetSystem.dto.MedicalInfo;
 import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class PersonService {
 
     private final PersonDAO personDAO;
+
 
     @Lazy  // Ajout de @Lazy sur MedicalRecordService pour éviter la dépendance circulaire immédiate
     private final MedicalRecordService medicalRecordService;
@@ -92,4 +95,43 @@ public class PersonService {
                 .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
                 .findFirst();
     }
+
+    // Méthode pour récupérer les personnes à une adresse donnée avec leurs informations médicales
+    public List<PersonInfo> getPersonsWithMedicalInfoByAddress(String address, boolean includeMedicalInfo) {
+        // Récupérer les personnes vivant à l'adresse donnée
+        List<Person> personsAtAddress = personDAO.getAllPersons().stream()
+                .filter(person -> person.getAddress().equals(address))
+                .toList();
+
+        return personsAtAddress.stream()
+                .map(person -> {
+                    // Créer le PersonInfo sans les informations médicales
+                    PersonInfo personInfo = new PersonInfo(
+                            person.getFirstName(),
+                            person.getLastName(),
+                            person.getAddress(),
+                            person.getPhone()
+                    );
+
+                    // Si les informations médicales sont nécessaires, on les ajoute
+                    if (includeMedicalInfo) {
+                        Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
+                        if (medicalRecordOptional.isPresent()) {
+                            MedicalRecord medicalRecord = medicalRecordOptional.get();
+                            // Créer les informations médicales et les inclure
+                            MedicalInfo medicalInfo = new MedicalInfo(
+                                    medicalRecord.getMedications(),
+                                    medicalRecord.getAllergies()
+                            );
+                            // Ajouter les informations médicales dans PersonInfo
+                            personInfo.setMedicalInfo(medicalInfo);
+                        }
+                    }
+                    return personInfo;
+                })
+                .collect(Collectors.toList());
+    }
+
+
+
 }
