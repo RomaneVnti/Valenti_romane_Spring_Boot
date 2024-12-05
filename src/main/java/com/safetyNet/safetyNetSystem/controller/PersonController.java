@@ -78,4 +78,11 @@ public class PersonController {
         return personService.getPersonInfoByLastName(lastName);
     }
 
+    // Route pour récupérer les emails des habitants d'une ville
+    @GetMapping("/communityEmail")
+    public List<String> getEmailsByCity(@RequestParam("city") String city) {
+        // Appeler le service pour récupérer les emails des habitants de la ville
+        return personService.getEmailsByCity(city);
+    }
+
 }

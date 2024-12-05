@@ -184,5 +184,16 @@ public class PersonService {
         return personInfoList;
     }
 
+    // Méthode pour récupérer les emails des habitants d'une ville
+    public List<String> getEmailsByCity(String city) {
+        // Récupérer toutes les personnes
+        List<Person> allPersons = personDAO.getAllPersons();
 
+        // Filtrer les personnes par ville
+
+        return allPersons.stream()
+                .filter(person -> person.getCity().equalsIgnoreCase(city))
+                .map(Person::getEmail) // Récupérer l'email de chaque personne
+                .collect(Collectors.toList());
+    }
 }
