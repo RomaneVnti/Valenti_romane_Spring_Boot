@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72f64140-b524-4d4d-b3c2-f3f86a26c13d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/FirestationResponseNoCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/MedicalInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/OtherController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/FirestationControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/DataLoaderServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/FirestationServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/MedicalRecordServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/PersonServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/FirestationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/FirestationResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/PersonInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/PersonInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" afterDir="false" />
     </list>
@@ -43,11 +46,19 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JAR Application.SafetyNet-1.0-SNAPSHOT.jar.executor": "Run",
+    "Maven. clean install .executor": "Run",
     "Maven.SafetyNet [clean,install].executor": "Run",
     "Maven.SafetyNet [clean,package].executor": "Run",
     "Maven.SafetyNet [java,-jar...].executor": "Run",
     "Maven.SafetyNet [java...].executor": "Run",
     "Maven.SafetyNet [spring-boot:run].executor": "Run",
+    "Maven.SafetyNet [test].executor": "Run",
+    "Maven.mvn clean .executor": "Run",
+    "Maven.mvn clean install .executor": "Run",
+    "Maven.mvn clean test.executor": "Run",
+    "Maven.mvn clean verify .executor": "Run",
+    "Maven.mvn test .executor": "Run",
+    "Maven.test jacoco .executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -61,7 +72,7 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
     </configuration>
-    <configuration name="SafetyNet [clean,package]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+    <configuration name="SafetyNet [clean,install]" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
         <option name="myRunnerSettings" />
@@ -74,7 +85,7 @@
             <option name="goals">
               <list>
                 <option value="clean" />
-                <option value="package" />
+                <option value="verify" />
               </list>
             </option>
             <option name="multimoduleDir" />
@@ -122,9 +133,72 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="SafetyNet [test]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="test jacoco " type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+                <option value="jacoco:report" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="JAR Application.SafetyNet-1.0-SNAPSHOT.jar" />
-      <item itemvalue="Maven.SafetyNet [clean,package]" />
+      <item itemvalue="Maven.test jacoco " />
+      <item itemvalue="Maven.SafetyNet [test]" />
+      <item itemvalue="Maven.SafetyNet [clean,install]" />
       <item itemvalue="Maven.SafetyNet [spring-boot:run]" />
     </list>
     <recent_temporary>

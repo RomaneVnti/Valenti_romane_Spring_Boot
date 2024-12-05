@@ -68,13 +68,19 @@ public class PersonService {
                 MedicalRecord medicalRecord = medicalRecordOptional.get();
                 int age = DateUtil.calculateAge(medicalRecord.getBirthdate());
 
+                // Débogage : afficher l'âge et les informations sur la personne
+                System.out.println(person.getFirstName() + " " + person.getLastName() + " : " + age);
+
                 if (age < 18) {
                     ChildInfo childInfo = new ChildInfo(
                             person.getFirstName(),
                             person.getLastName(),
                             age
                     );
-                    children.add(childInfo);
+                    // Ajouter à la liste des enfants si non déjà présent
+                    if (!children.contains(childInfo)) {
+                        children.add(childInfo);
+                    }
                 } else {
                     PersonInfo personInfo = new PersonInfo(
                             person.getFirstName(),
@@ -87,8 +93,12 @@ public class PersonService {
             }
         }
 
+        // Débogage : Vérifier le nombre d'enfants avant de retourner
+        System.out.println("Nombre d'enfants : " + children.size());
+
         return new ChildrenAlertResponse(children, adults);
     }
+
 
     public Optional<Person> getPersonByFirstNameAndLastName(String firstName, String lastName) {
         return personDAO.getAllPersons().stream()

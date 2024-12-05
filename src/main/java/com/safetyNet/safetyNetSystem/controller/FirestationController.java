@@ -65,16 +65,4 @@ public class FirestationController {
         return firestationService.getPersonsCoveredByStation(stationNumber);
     }
 
-    // Récupérer les numéros de téléphone des personnes couvertes par une caserne
-    @GetMapping("/phones")
-    public ResponseEntity<List<String>> getPhoneNumbersByStation(@RequestParam(name = "firestation") String firestationNumber) {
-        List<String> phoneNumbers = firestationService.getPhoneNumbersByStation(firestationNumber);
-        return ResponseEntity.ok(phoneNumbers);
-    }
-
-    // Route pour récupérer les informations des habitants et de la caserne à partir de l'adresse
-    @GetMapping("/fire")
-    public FirestationResponseNoCount getFirestationInfoByAddress(@RequestParam String address) {
-        return firestationService.getFirestationInfoByAddress(address);
-    }
 }

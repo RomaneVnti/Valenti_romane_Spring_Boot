@@ -3,13 +3,17 @@ package com.safetyNet.safetyNetSystem.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
-@JsonInclude(JsonInclude.Include.NON_NULL)
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FirestationResponse {
     private List<PersonInfo> persons;
     private int numberOfAdults;
     private int numberOfChildren;
-    private String stationNumber; // Ajouter le numéro de la caserne
+    private String stationNumber; // Numéro de la caserne
+
+    // Constructeur par défaut (requis pour Jackson)
+    public FirestationResponse() {
+    }
 
     // Constructeur pour les personnes et le nombre d'adultes/enfants
     public FirestationResponse(List<PersonInfo> persons, int numberOfAdults, int numberOfChildren) {
@@ -18,15 +22,15 @@ public class FirestationResponse {
         this.numberOfChildren = numberOfChildren;
     }
 
-    // Constructeur pour les personnes et le numéro de la caserne (ajouté)
+    // Constructeur pour les personnes et le numéro de la caserne
     public FirestationResponse(List<PersonInfo> persons, String stationNumber) {
         this.persons = persons;
         this.stationNumber = stationNumber;
-        this.numberOfAdults = 0; // Optionnel, si tu veux un comportement par défaut
-        this.numberOfChildren = 0; // Optionnel, si tu veux un comportement par défaut
+        this.numberOfAdults = 0; // Optionnel
+        this.numberOfChildren = 0; // Optionnel
     }
 
-    // Getters et Setters
+    // Getters et setters
     public List<PersonInfo> getPersons() {
         return persons;
     }

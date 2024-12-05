@@ -4,6 +4,7 @@ import com.safetyNet.safetyNetSystem.dao.FirestationDAO;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponseNoCount;
 
+import com.safetyNet.safetyNetSystem.dto.MedicalInfo;
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.model.Person;
@@ -17,7 +18,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
 
 @Service
 public class FirestationService {
@@ -154,6 +154,73 @@ public class FirestationService {
         // Retourner la réponse sans inclure `numberOfAdults` et `numberOfChildren`
         return new FirestationResponseNoCount(personsInfo, stationNumber);
     }
+
+    // Méthode pour récupérer tous les foyers desservis par les casernes
+    public List<FirestationResponseNoCount> getFloodedStations(List<String> stations) {
+        // Récupérer toutes les casernes
+        List<Firestation> firestations = firestationDAO.getAllFirestations();
+        List<FirestationResponseNoCount> floodedStations = new ArrayList<>();
+
+        // Vérifier si la liste des stations est vide et gérer ce cas
+        if (stations.isEmpty()) {
+            return floodedStations; // Ou lancer une exception si nécessaire
+        }
+
+        // Filtrer les casernes en fonction des stations spécifiées
+        for (Firestation firestation : firestations) {
+            String stationNumber = firestation.getStation();
+            // Si la station actuelle est dans la liste des stations demandées
+            if (stations.contains(stationNumber)) {
+                String stationAddress = firestation.getAddress();
+
+                // Récupérer les personnes couvertes par la caserne
+                List<Person> allPersons = personService.getAllPersons();
+                List<Person> personsCoveredByStation = allPersons.stream()
+                        .filter(person -> person.getAddress().equals(stationAddress))
+                        .toList();
+
+                // Créer une liste d'informations des personnes, incluant les antécédents médicaux
+                List<PersonInfo> personInfoList = new ArrayList<>();
+
+                for (Person person : personsCoveredByStation) {
+                    // Obtenir les antécédents médicaux pour chaque personne
+                    Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
+                    if (medicalRecordOptional.isPresent()) {
+                        MedicalRecord medicalRecord = medicalRecordOptional.get();
+                        int age = DateUtil.calculateAge(medicalRecord.getBirthdate());
+
+                        // Récupérer les informations médicales séparément
+                        List<String> medications = medicalRecord.getMedications();
+                        List<String> allergies = medicalRecord.getAllergies();
+
+                        // Créer un objet PersonInfo avec les informations nécessaires
+                        PersonInfo personInfo = new PersonInfo(
+                                person.getFirstName(),
+                                person.getLastName(),
+                                person.getAddress(),
+                                person.getPhone()
+                        );
+
+                        // Ajouter les informations médicales à la personne
+                        personInfo.setMedicalInfo(new MedicalInfo(medications, allergies));
+
+                        // Ajouter la personne à la liste
+                        personInfoList.add(personInfo);
+                    }
+                }
+
+                // Si des personnes sont couvertes par cette caserne, ajouter la réponse à la liste
+                if (!personInfoList.isEmpty()) {
+                    FirestationResponseNoCount firestationResponse = new FirestationResponseNoCount(personInfoList, stationNumber);
+                    floodedStations.add(firestationResponse);
+                }
+            }
+        }
+
+        // Retourner la liste des foyers desservis par les casernes spécifiées
+        return floodedStations;
+    }
+
 
 
 
