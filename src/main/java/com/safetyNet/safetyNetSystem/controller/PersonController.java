@@ -1,5 +1,6 @@
 package com.safetyNet.safetyNetSystem.controller;
 
+import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.service.PersonService;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,13 @@ public class PersonController {
     @GetMapping("/childAlert")
     public ChildrenAlertResponse getChildAlert(@RequestParam String address) throws IOException {
         return personService.getChildAlertByAddress(address);
+    }
+
+    // Route pour récupérer les informations des personnes par nom de famille
+    @GetMapping("/personInfo")
+    public List<PersonInfo> getPersonInfoByLastName(@RequestParam("lastName") String lastName) {
+        // Appeler le service pour récupérer les informations des personnes par nom de famille
+        return personService.getPersonInfoByLastName(lastName);
     }
 
 }

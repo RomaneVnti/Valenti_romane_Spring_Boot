@@ -1,12 +1,9 @@
 package com.safetyNet.safetyNetSystem.service;
 
 import com.safetyNet.safetyNetSystem.dao.PersonDAO;
-import com.safetyNet.safetyNetSystem.dto.MedicalInfo;
+import com.safetyNet.safetyNetSystem.dto.*;
 import com.safetyNet.safetyNetSystem.model.Person;
-import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
-import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.util.DateUtil;
-import com.safetyNet.safetyNetSystem.dto.ChildInfo;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
 import org.springframework.stereotype.Service;
 
@@ -93,8 +90,6 @@ public class PersonService {
             }
         }
 
-        // Débogage : Vérifier le nombre d'enfants avant de retourner
-        System.out.println("Nombre d'enfants : " + children.size());
 
         return new ChildrenAlertResponse(children, adults);
     }
@@ -142,6 +137,52 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+
+    // Méthode pour récupérer les informations des personnes par leur nom de famille
+    public List<PersonInfo> getPersonInfoByLastName(String lastName) {
+        // Récupérer toutes les personnes
+        List<Person> allPersons = personDAO.getAllPersons();
+
+        // Filtrer les personnes par nom de famille
+        List<Person> filteredPersons = allPersons.stream()
+                .filter(person -> person.getLastName().equalsIgnoreCase(lastName))
+                .toList();
+
+        // Créer une liste de PersonInfo avec les informations nécessaires
+        List<PersonInfo> personInfoList = new ArrayList<>();
+
+        for (Person person : filteredPersons) {
+            // Obtenir les antécédents médicaux pour chaque personne
+            Optional<MedicalRecord> medicalRecordOptional = medicalRecordService.getMedicalRecordByPerson(person);
+            if (medicalRecordOptional.isPresent()) {
+                MedicalRecord medicalRecord = medicalRecordOptional.get();
+                int age = DateUtil.calculateAge(medicalRecord.getBirthdate());
+
+                // Récupérer les informations médicales séparément
+                List<String> medications = medicalRecord.getMedications();
+                List<String> allergies = medicalRecord.getAllergies();
+
+                // Créer un objet PersonInfo avec les informations nécessaires
+                PersonInfo personInfo = new PersonInfo(
+                        person.getFirstName(),
+                        person.getLastName(),
+                        person.getAddress(),
+                        person.getEmail() // Ajout de l'adresse email
+                        //age // Ajout de l'âge
+                );
+
+                // Ajouter les informations médicales à la personne
+                personInfo.setMedicalInfo(new MedicalInfo(medications, allergies));
+
+                // Ajouter un objet supplémentaire pour l'âge, par exemple dans la réponse JSON
+
+                // Ajouter la personne à la liste
+                personInfoList.add(personInfo);
+            }
+        }
+
+        return personInfoList;
+    }
 
 
 }

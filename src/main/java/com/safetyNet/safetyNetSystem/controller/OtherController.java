@@ -36,4 +36,6 @@ public class OtherController {
         // Appel du service pour récupérer les stations inondées en fonction des stations spécifiées
         return firestationService.getFloodedStations(stations);
     }
+
+
 }
