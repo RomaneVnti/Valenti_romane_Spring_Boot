@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="72f64140-b524-4d4d-b3c2-f3f86a26c13d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/PersonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/PersonServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/service/PersonServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +56,7 @@
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Maven.SafetyNet [spring-boot:run]">
+  <component name="RunManager" selected="Maven.test jacoco ">
     <configuration name="SafetyNet-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/SafetyNet-1.0-SNAPSHOT.jar" />
       <option name="ALTERNATIVE_JRE_PATH" />
