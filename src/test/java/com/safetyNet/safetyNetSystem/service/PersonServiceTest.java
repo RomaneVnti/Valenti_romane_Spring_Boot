@@ -2,18 +2,15 @@ package com.safetyNet.safetyNetSystem.service;
 
 import com.safetyNet.safetyNetSystem.dao.PersonDAO;
 import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
-import com.safetyNet.safetyNetSystem.dto.MedicalInfo;
 import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
 import com.safetyNet.safetyNetSystem.model.Person;
-import com.safetyNet.safetyNetSystem.util.DateUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -161,7 +158,7 @@ class PersonServiceTest {
 
         // Assert
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getMedicalInfo().getMedications()).contains("med1");
+        assertThat(result.getFirst().getMedicalInfo().getMedications()).contains("med1");
         verify(personDAO, times(1)).getAllPersons();
         verify(medicalRecordService, times(1)).getMedicalRecordByPerson(person);
     }

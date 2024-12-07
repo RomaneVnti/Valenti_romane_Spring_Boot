@@ -2,12 +2,10 @@ package com.safetyNet.safetyNetSystem.dao;
 
 import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.service.DataLoaderService;
-import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * DAO (Data Access Object) pour gérer les personnes.
@@ -17,19 +15,16 @@ import java.util.stream.Collectors;
 @Repository
 public class PersonDAO {
 
-    private final DataLoaderUtil dataLoaderUtil;
     private final DataLoaderService dataLoaderService;
-    private DataContainer dataContainer;
+    private final DataContainer dataContainer;
 
     /**
      * Constructeur pour initialiser DataLoaderUtil et DataLoaderService.
      * Le DataContainer est utilisé pour accéder à la liste des personnes.
      *
-     * @param dataLoaderUtil Utilitaire de chargement des données.
      * @param dataLoaderService Service de gestion du chargement et de la sauvegarde des données.
      */
-    public PersonDAO(DataLoaderUtil dataLoaderUtil, DataLoaderService dataLoaderService) {
-        this.dataLoaderUtil = dataLoaderUtil;
+    public PersonDAO(DataLoaderService dataLoaderService) {
         this.dataLoaderService = dataLoaderService;
         // Charger les données via DataLoaderService
         this.dataContainer = dataLoaderService.getDataContainer();  // Utilisation de DataLoaderService pour obtenir le DataContainer
@@ -109,18 +104,4 @@ public class PersonDAO {
         return removed;
     }
 
-    /**
-     * Récupère les numéros de téléphone des personnes qui habitent à certaines adresses.
-     * Cette méthode filtre les personnes par adresse et retourne une liste distincte de numéros de téléphone.
-     *
-     * @param addresses Une liste d'adresses pour lesquelles les numéros de téléphone doivent être récupérés.
-     * @return Une liste de numéros de téléphone distincts des personnes vivant à ces adresses.
-     */
-    public List<String> getPhoneNumbersByAddresses(List<String> addresses) {
-        return dataContainer.getPersons().stream()
-                .filter(person -> addresses.contains(person.getAddress()))
-                .map(Person::getPhone)
-                .distinct() // Élimine les doublons
-                .collect(Collectors.toList());
-    }
 }

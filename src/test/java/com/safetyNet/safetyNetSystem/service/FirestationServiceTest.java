@@ -3,11 +3,9 @@ package com.safetyNet.safetyNetSystem.service;
 import com.safetyNet.safetyNetSystem.dao.FirestationDAO;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponseNoCount;
-import com.safetyNet.safetyNetSystem.dto.PersonInfo;
 import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.model.Person;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
-import com.safetyNet.safetyNetSystem.util.DateUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -83,7 +81,7 @@ public class FirestationServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("123 Main St", result.get(0).getAddress());
+        assertEquals("123 Main St", result.getFirst().getAddress());
     }
 
     /**
@@ -137,7 +135,7 @@ public class FirestationServiceTest {
     public void testGetPersonsCoveredByStation() {
         when(personService.getAllPersons()).thenReturn(persons);
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
-        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecords.get(0)));
+        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecords.getFirst()));
 
         FirestationResponse response = firestationService.getPersonsCoveredByStation("1");
 
@@ -160,7 +158,7 @@ public class FirestationServiceTest {
 
         assertNotNull(phoneNumbers);
         assertEquals(1, phoneNumbers.size()); // Vérifie qu'il y a un seul numéro
-        assertEquals("123-456-7890", phoneNumbers.get(0));  // Vérifie le numéro de téléphone
+        assertEquals("123-456-7890", phoneNumbers.getFirst());  // Vérifie le numéro de téléphone
     }
 
     /**
@@ -201,7 +199,7 @@ public class FirestationServiceTest {
         // Mock des services
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
         when(personService.getAllPersons()).thenReturn(persons);
-        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecords.get(0)));
+        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecords.getFirst()));
 
         // Appel de la méthode
         List<FirestationResponseNoCount> floodedStations = firestationService.getFloodedStations(stationsRequested);
@@ -209,8 +207,8 @@ public class FirestationServiceTest {
         // Vérification des résultats
         assertNotNull(floodedStations);
         assertEquals(1, floodedStations.size());  // Vérifie qu'une station est retournée
-        assertEquals("1", floodedStations.get(0).getStationNumber());  // Vérifie le numéro de station
-        assertEquals(1, floodedStations.get(0).getPersons().size());  // Vérifie le nombre de personnes
+        assertEquals("1", floodedStations.getFirst().getStationNumber());  // Vérifie le numéro de station
+        assertEquals(1, floodedStations.getFirst().getPersons().size());  // Vérifie le nombre de personnes
     }
 
     /**

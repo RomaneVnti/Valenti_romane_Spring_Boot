@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.safetyNet.safetyNetSystem.dto.ChildInfo;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -40,10 +39,9 @@ class PersonControllerTest {
      * Test pour récupérer toutes les personnes.
      * Vérifie que la méthode `getAllPersons()` retourne la liste correcte de personnes.
      *
-     * @throws IOException si une erreur se produit lors de la récupération des données.
      */
     @Test
-    void testGetAllPersons() throws IOException {
+    void testGetAllPersons() {
         Person person1 = new Person();
         Person person2 = new Person();
         List<Person> mockPersons = Arrays.asList(person1, person2);
@@ -59,14 +57,13 @@ class PersonControllerTest {
      * Test pour ajouter une nouvelle personne.
      * Vérifie que l'ajout d'une personne retourne la réponse correcte.
      *
-     * @throws IOException si une erreur se produit lors de l'ajout de la personne.
      */
     @Test
-    void testAddPerson() throws IOException {
+    void testAddPerson() {
         Person person = new Person();
         ResponseEntity<String> response = personController.addPerson(person);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Person added successfully.", response.getBody());
     }
 
@@ -74,10 +71,9 @@ class PersonControllerTest {
      * Test pour mettre à jour une personne existante.
      * Vérifie que la mise à jour d'une personne retourne la réponse correcte.
      *
-     * @throws IOException si une erreur se produit lors de la mise à jour de la personne.
      */
     @Test
-    void testUpdatePerson() throws IOException {
+    void testUpdatePerson() {
         String firstName = "John";
         String lastName = "Doe";
         Person updatedPerson = new Person();
@@ -87,7 +83,7 @@ class PersonControllerTest {
 
         ResponseEntity<String> response = personController.updatePerson(firstName, lastName, updatedPerson);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Person updated successfully.", response.getBody());
     }
 
@@ -95,10 +91,9 @@ class PersonControllerTest {
      * Test pour supprimer une personne.
      * Vérifie que la suppression d'une personne retourne la réponse correcte.
      *
-     * @throws IOException si une erreur se produit lors de la suppression de la personne.
      */
     @Test
-    void testDeletePerson() throws IOException {
+    void testDeletePerson() {
         String firstName = "John";
         String lastName = "Doe";
         boolean removed = true;
@@ -107,7 +102,7 @@ class PersonControllerTest {
 
         ResponseEntity<String> response = personController.deletePerson(firstName, lastName);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Person deleted successfully.", response.getBody());
     }
 
@@ -115,23 +110,14 @@ class PersonControllerTest {
      * Test pour récupérer les alertes enfants par adresse.
      * Vérifie que la méthode `getChildAlert()` retourne les alertes d'enfants et d'adultes pour une adresse donnée.
      *
-     * @throws IOException si une erreur se produit lors de la récupération des alertes.
      */
     @Test
-    void testGetChildAlert() throws IOException {
+    void testGetChildAlert() {
         String address = "123 Main St";
 
         // Créez des listes simulées pour les enfants et les adultes
         ChildInfo child1 = new ChildInfo("Johnny", "Doe", 5);
-        ChildInfo child2 = new ChildInfo("Sally", "Doe", 8);
-        List<ChildInfo> children = Arrays.asList(child1, child2);
-
-        PersonInfo adult1 = new PersonInfo("John", "Doe", address, "123-456-7890");
-        PersonInfo adult2 = new PersonInfo("Jane", "Doe", address, "987-654-3210");
-        List<PersonInfo> adults = Arrays.asList(adult1, adult2);
-
-        // Créez l'objet ChildrenAlertResponse avec les listes créées
-        ChildrenAlertResponse mockResponse = new ChildrenAlertResponse(children, adults);
+        ChildrenAlertResponse mockResponse = getChildrenAlertResponse(child1, address);
 
         // Simulez l'appel au service
         when(personService.getChildAlertByAddress(address)).thenReturn(mockResponse);
@@ -141,6 +127,19 @@ class PersonControllerTest {
 
         // Vérification du résultat
         assertEquals(mockResponse, response);
+    }
+
+    private static ChildrenAlertResponse getChildrenAlertResponse(ChildInfo child1, String address) {
+        ChildInfo child2 = new ChildInfo("Sally", "Doe", 8);
+        List<ChildInfo> children = Arrays.asList(child1, child2);
+
+        PersonInfo adult1 = new PersonInfo("John", "Doe", address, "123-456-7890");
+        PersonInfo adult2 = new PersonInfo("Jane", "Doe", address, "987-654-3210");
+        List<PersonInfo> adults = Arrays.asList(adult1, adult2);
+
+        // Créez l'objet ChildrenAlertResponse avec les listes créées
+        ChildrenAlertResponse mockResponse = new ChildrenAlertResponse(children, adults);
+        return mockResponse;
     }
 
     /**

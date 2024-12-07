@@ -3,11 +3,9 @@ package com.safetyNet.safetyNetSystem.service;
 import com.safetyNet.safetyNetSystem.dao.MedicalRecordDAO;
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
 import com.safetyNet.safetyNetSystem.model.Person;
-import com.safetyNet.safetyNetSystem.service.MedicalRecordService;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +22,6 @@ class MedicalRecordServiceTest {
 
     private MedicalRecordDAO medicalRecordDAO;
     private MedicalRecordService medicalRecordService;
-    private DataLoaderUtil dataLoaderUtil;
 
     /**
      * Méthode exécutée avant chaque test pour initialiser les objets nécessaires.
@@ -33,7 +30,7 @@ class MedicalRecordServiceTest {
     @BeforeEach
     void setUp() {
         medicalRecordDAO = mock(MedicalRecordDAO.class);
-        dataLoaderUtil = mock(DataLoaderUtil.class);
+        DataLoaderUtil dataLoaderUtil = mock(DataLoaderUtil.class);
         medicalRecordService = new MedicalRecordService(medicalRecordDAO, dataLoaderUtil);
     }
 
@@ -45,8 +42,8 @@ class MedicalRecordServiceTest {
     void testGetAllMedicalRecords() {
         // Création d'exemples de données simulées
         List<MedicalRecord> medicalRecords = Arrays.asList(
-                new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("Aspirin"), Arrays.asList("Peanuts")),
-                new MedicalRecord("Jane", "Smith", "02/02/1990", Arrays.asList("Ibuprofen"), Arrays.asList("Dust"))
+                new MedicalRecord("John", "Doe", "01/01/1980", List.of("Aspirin"), List.of("Peanuts")),
+                new MedicalRecord("Jane", "Smith", "02/02/1990", List.of("Ibuprofen"), List.of("Dust"))
         );
 
         // Simuler le comportement du DAO
@@ -69,7 +66,7 @@ class MedicalRecordServiceTest {
     @Test
     void testAddMedicalRecord() {
         // Création d'un enregistrement médical à ajouter
-        MedicalRecord medicalRecord = new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("Aspirin"), Arrays.asList("Peanuts"));
+        MedicalRecord medicalRecord = new MedicalRecord("John", "Doe", "01/01/1980", List.of("Aspirin"), List.of("Peanuts"));
 
         // Appel de la méthode à tester
         medicalRecordService.addMedicalRecord(medicalRecord);
@@ -85,7 +82,7 @@ class MedicalRecordServiceTest {
     @Test
     void testUpdateMedicalRecord() {
         // Arrange: Création de l'enregistrement médical existant et de la mise à jour
-        MedicalRecord updatedRecord = new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("Aspirin", "Paracetamol"), Arrays.asList("Peanuts"));
+        MedicalRecord updatedRecord = new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("Aspirin", "Paracetamol"), List.of("Peanuts"));
 
         // Simuler le comportement du DAO pour l'update
         when(medicalRecordDAO.updateMedicalRecord("John", "Doe", updatedRecord)).thenReturn(Optional.of(updatedRecord));
@@ -123,7 +120,7 @@ class MedicalRecordServiceTest {
     void testGetMedicalRecordByPerson() {
         // Création d'une personne et d'un enregistrement médical
         Person person = new Person("John", "Doe", "123 Main St", "City", "12345", "123-456-7890", "john.doe@example.com");
-        MedicalRecord medicalRecord = new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("Aspirin"), Arrays.asList("Peanuts"));
+        MedicalRecord medicalRecord = new MedicalRecord("John", "Doe", "01/01/1980", List.of("Aspirin"), List.of("Peanuts"));
 
         // Simuler le comportement du DAO
         when(medicalRecordDAO.getMedicalRecordByPerson("John", "Doe")).thenReturn(Optional.of(medicalRecord));

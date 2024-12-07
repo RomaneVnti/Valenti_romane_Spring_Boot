@@ -52,7 +52,7 @@ class MedicalRecordControllerTest {
         verify(medicalRecordService, times(1)).addMedicalRecord(medicalRecord);
 
         // Vérifier la réponse
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());  // Utilisation de getStatusCode().value()
         assertEquals("Medical record added successfully.", response.getBody());
     }
 
@@ -76,7 +76,7 @@ class MedicalRecordControllerTest {
         verify(medicalRecordService, times(1)).updateMedicalRecord(firstName, lastName, updatedRecord);
 
         // Vérifier la réponse
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());  // Utilisation de getStatusCode().value()
         assertEquals("Medical record updated successfully.", response.getBody());
     }
 
@@ -100,7 +100,7 @@ class MedicalRecordControllerTest {
         verify(medicalRecordService, times(1)).updateMedicalRecord(firstName, lastName, updatedRecord);
 
         // Vérifier la réponse
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(404, response.getStatusCode().value());  // Utilisation de getStatusCode().value()
         assertNull(response.getBody());
     }
 
@@ -122,7 +122,7 @@ class MedicalRecordControllerTest {
         verify(medicalRecordService, times(1)).deleteMedicalRecord(firstName, lastName);
 
         // Vérifier la réponse
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());  // Utilisation de getStatusCode().value()
         assertEquals("Medical record deleted successfully.", response.getBody());
     }
 
@@ -144,7 +144,7 @@ class MedicalRecordControllerTest {
         verify(medicalRecordService, times(1)).deleteMedicalRecord(firstName, lastName);
 
         // Vérifier la réponse
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(404, response.getStatusCode().value());  // Utilisation de getStatusCode().value()
         assertNull(response.getBody());
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +31,9 @@ public class PersonController {
      * Récupérer toutes les personnes dans le système.
      *
      * @return une liste de toutes les personnes
-     * @throws IOException si une erreur se produit lors de la récupération des données
      */
     @GetMapping("/person")
-    public List<Person> getAllPersons() throws IOException {
+    public List<Person> getAllPersons() {
         logger.debug("Received request to get all persons");
 
         List<Person> persons = personService.getAllPersons();
@@ -48,10 +46,9 @@ public class PersonController {
      *
      * @param person l'objet représentant la personne à ajouter
      * @return une réponse indiquant si l'ajout a réussi
-     * @throws IOException si une erreur se produit lors de l'ajout
      */
     @PostMapping("/person")
-    public ResponseEntity<String> addPerson(@RequestBody Person person) throws IOException {
+    public ResponseEntity<String> addPerson(@RequestBody Person person) {
         logger.debug("Received request to add person: {}", person);
 
         personService.addPerson(person);
@@ -66,13 +63,12 @@ public class PersonController {
      * @param lastName le nom de famille de la personne à mettre à jour
      * @param updatedPerson l'objet représentant les nouvelles informations de la personne
      * @return une réponse indiquant si la mise à jour a réussi
-     * @throws IOException si une erreur se produit lors de la mise à jour
      */
     @PutMapping("/person/{firstName}/{lastName}")
     public ResponseEntity<String> updatePerson(
             @PathVariable String firstName,
             @PathVariable String lastName,
-            @RequestBody Person updatedPerson) throws IOException {
+            @RequestBody Person updatedPerson) {
         logger.debug("Received request to update person: {} {}", firstName, lastName);
 
         Optional<Person> updated = personService.updatePerson(firstName, lastName, updatedPerson);
@@ -92,12 +88,11 @@ public class PersonController {
      * @param firstName le prénom de la personne à supprimer
      * @param lastName le nom de famille de la personne à supprimer
      * @return une réponse indiquant si la suppression a réussi
-     * @throws IOException si une erreur se produit lors de la suppression
      */
     @DeleteMapping("/person/{firstName}/{lastName}")
     public ResponseEntity<String> deletePerson(
             @PathVariable String firstName,
-            @PathVariable String lastName) throws IOException {
+            @PathVariable String lastName) {
         logger.debug("Received request to delete person: {} {}", firstName, lastName);
 
         boolean removed = personService.deletePerson(firstName, lastName);
@@ -116,10 +111,9 @@ public class PersonController {
      *
      * @param address l'adresse pour laquelle récupérer les alertes enfants
      * @return une réponse contenant les alertes pour les enfants à cette adresse
-     * @throws IOException si une erreur se produit lors de la récupération des alertes
      */
     @GetMapping("/childAlert")
-    public ChildrenAlertResponse getChildAlert(@RequestParam String address) throws IOException {
+    public ChildrenAlertResponse getChildAlert(@RequestParam String address) {
         logger.debug("Received request to get child alert for address: {}", address);
 
         ChildrenAlertResponse response = personService.getChildAlertByAddress(address);

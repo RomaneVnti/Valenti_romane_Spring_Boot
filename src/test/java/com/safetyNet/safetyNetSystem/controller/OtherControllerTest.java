@@ -35,7 +35,6 @@ class OtherControllerTest {
 
     /**
      * Teste la récupération des numéros de téléphone par numéro de caserne.
-     *
      * Vérifie si le contrôleur renvoie correctement la liste des numéros de téléphone
      * d'une caserne donnée lorsque la méthode est appelée.
      */
@@ -51,13 +50,12 @@ class OtherControllerTest {
         ResponseEntity<List<String>> response = otherController.getPhoneNumbersByStation(firestationNumber);
 
         // Vérifie la réponse du contrôleur
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(mockPhoneNumbers, response.getBody());
     }
 
     /**
      * Teste la récupération des informations d'une caserne à partir d'une adresse.
-     *
      * Vérifie si le contrôleur renvoie correctement les informations de la caserne
      * lorsqu'une adresse est fournie.
      */
@@ -81,7 +79,6 @@ class OtherControllerTest {
 
     /**
      * Teste la récupération des foyers desservis par plusieurs casernes.
-     *
      * Vérifie si le contrôleur renvoie correctement les foyers desservis par
      * les casernes spécifiées dans la liste donnée.
      */

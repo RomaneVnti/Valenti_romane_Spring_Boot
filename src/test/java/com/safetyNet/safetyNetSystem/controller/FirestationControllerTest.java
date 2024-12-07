@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ class FirestationControllerTest {
         ResponseEntity<String> response = firestationController.addFirestation(firestation);
 
         verify(firestationService, times(1)).addFirestation(firestation);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode()); // Remplacer getStatusCodeValue() par getStatusCode()
         assertEquals("Firestation mapping added successfully.", response.getBody());
     }
 
@@ -61,7 +62,7 @@ class FirestationControllerTest {
         ResponseEntity<String> response = firestationController.updateFirestation(address, firestation);
 
         verify(firestationService, times(1)).updateFirestation(address, firestation);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode()); // Remplacer getStatusCodeValue() par getStatusCode()
         assertEquals("Firestation mapping updated successfully.", response.getBody());
     }
 
@@ -78,7 +79,7 @@ class FirestationControllerTest {
         ResponseEntity<String> response = firestationController.updateFirestation(address, firestation);
 
         verify(firestationService, times(1)).updateFirestation(address, firestation);
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // Remplacer getStatusCodeValue() par getStatusCode()
         assertNull(response.getBody());
     }
 
@@ -93,7 +94,7 @@ class FirestationControllerTest {
         ResponseEntity<String> response = firestationController.deleteFirestation(address);
 
         verify(firestationService, times(1)).deleteFirestation(address);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode()); // Remplacer getStatusCodeValue() par getStatusCode()
         assertEquals("Firestation mapping deleted successfully.", response.getBody());
     }
 
@@ -108,7 +109,7 @@ class FirestationControllerTest {
         ResponseEntity<String> response = firestationController.deleteFirestation(address);
 
         verify(firestationService, times(1)).deleteFirestation(address);
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // Remplacer getStatusCodeValue() par getStatusCode()
         assertNull(response.getBody());
     }
 

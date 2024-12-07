@@ -2,12 +2,10 @@ package com.safetyNet.safetyNetSystem.dao;
 
 import com.safetyNet.safetyNetSystem.model.Firestation;
 import com.safetyNet.safetyNetSystem.service.DataLoaderService;
-import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import org.springframework.stereotype.Repository;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * DAO (Data Access Object) pour gérer les casernes de pompiers.
@@ -17,20 +15,17 @@ import java.util.stream.Collectors;
 @Repository
 public class FirestationDAO {
 
-    private final DataLoaderUtil dataLoaderUtil;
     private final DataLoaderService dataLoaderService;
 
-    private DataContainer dataContainer;
+    private final DataContainer dataContainer;
 
     /**
      * Constructeur pour initialiser DataLoaderUtil et DataLoaderService.
      * Charge les données via le DataLoaderService pour initialiser le DataContainer.
      *
-     * @param dataLoaderUtil Service utilitaire pour le chargement des données.
      * @param dataLoaderService Service de gestion du chargement et de la sauvegarde des données.
      */
-    public FirestationDAO(DataLoaderUtil dataLoaderUtil, DataLoaderService dataLoaderService) {
-        this.dataLoaderUtil = dataLoaderUtil;
+    public FirestationDAO(DataLoaderService dataLoaderService) {
         this.dataLoaderService = dataLoaderService;
         // Charger les données via le DataLoaderService
         this.dataContainer = dataLoaderService.getDataContainer(); // Utilisation de DataLoaderService pour obtenir le DataContainer
@@ -96,19 +91,6 @@ public class FirestationDAO {
         }
 
         return removed;
-    }
-
-    /**
-     * Récupère les adresses des casernes associées à un numéro de station donné.
-     *
-     * @param stationNumber Le numéro de station des casernes à rechercher.
-     * @return Une liste des adresses des casernes qui correspondent à ce numéro de station.
-     */
-    public List<String> getAddressesByStation(String stationNumber) {
-        return dataContainer.getFirestations().stream()
-                .filter(firestation -> firestation.getStation().equals(stationNumber))
-                .map(Firestation::getAddress)
-                .collect(Collectors.toList());
     }
 
 }

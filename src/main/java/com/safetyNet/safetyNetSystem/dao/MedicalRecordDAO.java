@@ -1,7 +1,6 @@
 package com.safetyNet.safetyNetSystem.dao;
 
 import com.safetyNet.safetyNetSystem.model.MedicalRecord;
-import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import com.safetyNet.safetyNetSystem.service.DataLoaderService;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,7 @@ import java.util.Optional;
 public class MedicalRecordDAO {
 
     private final DataLoaderService dataLoaderService;
-    private DataContainer dataContainer;
+    private final DataContainer dataContainer;
 
     /**
      * Constructeur pour initialiser DataLoaderService et charger les données dans le DataContainer.
@@ -110,11 +109,10 @@ public class MedicalRecordDAO {
         List<MedicalRecord> medicalRecords = dataContainer.getMedicalrecords();
 
         // Chercher un enregistrement médical correspondant au prénom et au nom
-        Optional<MedicalRecord> existingRecord = medicalRecords.stream()
-                .filter(record -> record.getFirstName().equals(firstName) && record.getLastName().equals(lastName))
-                .findFirst();
 
         // Retourner l'enregistrement trouvé, ou un Optional vide si aucun résultat
-        return existingRecord;
+        return medicalRecords.stream()
+                .filter(record -> record.getFirstName().equals(firstName) && record.getLastName().equals(lastName))
+                .findFirst();
     }
 }

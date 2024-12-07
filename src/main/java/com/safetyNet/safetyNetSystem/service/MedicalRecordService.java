@@ -17,7 +17,6 @@ import java.util.Optional;
 public class MedicalRecordService {
 
     private final MedicalRecordDAO medicalRecordDAO;
-    private final DataLoaderUtil dataLoaderUtil;
 
     /**
      * Constructeur pour initialiser le DAO des enregistrements médicaux et l'utilitaire de chargement des données.
@@ -27,7 +26,6 @@ public class MedicalRecordService {
      */
     public MedicalRecordService(MedicalRecordDAO medicalRecordDAO, DataLoaderUtil dataLoaderUtil) {
         this.medicalRecordDAO = medicalRecordDAO;
-        this.dataLoaderUtil = dataLoaderUtil;
     }
 
     /**

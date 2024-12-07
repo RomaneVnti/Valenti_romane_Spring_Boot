@@ -2,10 +2,8 @@ package com.safetyNet.safetyNetSystem.service;
 
 import com.safetyNet.safetyNetSystem.model.DataContainer;
 import com.safetyNet.safetyNetSystem.util.DataLoaderUtil;
-import com.safetyNet.safetyNetSystem.service.DataLoaderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
