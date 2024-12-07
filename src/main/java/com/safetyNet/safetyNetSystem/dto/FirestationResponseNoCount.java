@@ -6,7 +6,11 @@ public class FirestationResponseNoCount {
     private List<PersonInfo> persons;
     private String stationNumber;
 
-    // Constructeur sans les éléments `numberOfAdults` et `numberOfChildren`
+    // Constructeur par défaut (obligatoire pour Jackson et certaines instanciations)
+    public FirestationResponseNoCount() {
+    }
+
+    // Constructeur avec paramètres
     public FirestationResponseNoCount(List<PersonInfo> persons, String stationNumber) {
         this.persons = persons;
         this.stationNumber = stationNumber;
