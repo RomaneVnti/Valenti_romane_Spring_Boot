@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72f64140-b524-4d4d-b3c2-f3f86a26c13d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/MedicalRecordControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/OtherControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/PersonControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/FirestationResponseNoCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/dto/FirestationResponseNoCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/FirestationControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/safetyNet/safetyNetSystem/controller/FirestationControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/FirestationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/MedicalRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/MedicalRecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/OtherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/OtherController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/controller/PersonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/DataLoaderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/DataLoaderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/safetyNet/safetyNetSystem/service/FirestationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +63,7 @@
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Maven.SafetyNet [clean,install]">
+  <component name="RunManager" selected="Maven.SafetyNet [spring-boot:run]">
     <configuration name="SafetyNet-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/SafetyNet-1.0-SNAPSHOT.jar" />
       <option name="ALTERNATIVE_JRE_PATH" />

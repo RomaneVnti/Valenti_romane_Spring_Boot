@@ -23,29 +23,62 @@ public class MedicalRecordService {
 
     // Récupérer tous les enregistrements médicaux
     public List<MedicalRecord> getAllMedicalRecords() {
-        return medicalRecordDAO.getAllMedicalRecords();
+        try {
+            return medicalRecordDAO.getAllMedicalRecords();
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération des enregistrements médicaux", e);
+        }
     }
 
     // Ajouter un enregistrement médical
     public void addMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordDAO.addMedicalRecord(medicalRecord);
+        if (medicalRecord == null) {
+            throw new IllegalArgumentException("L'enregistrement médical ne peut pas être null");
+        }
+
+        try {
+            medicalRecordDAO.addMedicalRecord(medicalRecord);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de l'ajout de l'enregistrement médical", e);
+        }
     }
 
     // Mettre à jour un enregistrement médical
     public Optional<MedicalRecord> updateMedicalRecord(String firstName, String lastName, MedicalRecord updatedRecord) {
-        return medicalRecordDAO.updateMedicalRecord(firstName, lastName, updatedRecord);
+        if (firstName == null || lastName == null || updatedRecord == null) {
+            throw new IllegalArgumentException("Les paramètres fournis ne peuvent pas être null");
+        }
+
+        try {
+            return medicalRecordDAO.updateMedicalRecord(firstName, lastName, updatedRecord);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la mise à jour de l'enregistrement médical", e);
+        }
     }
 
     // Supprimer un enregistrement médical
     public boolean deleteMedicalRecord(String firstName, String lastName) {
-        return medicalRecordDAO.deleteMedicalRecord(firstName, lastName);
+        if (firstName == null || lastName == null) {
+            throw new IllegalArgumentException("Les paramètres fournis ne peuvent pas être null");
+        }
+
+        try {
+            return medicalRecordDAO.deleteMedicalRecord(firstName, lastName);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la suppression de l'enregistrement médical", e);
+        }
     }
 
-    // Récupérer un enregistrement médical d'une personne
     // Récupérer un enregistrement médical d'une personne
     public Optional<MedicalRecord> getMedicalRecordByPerson(Person person) {
-        // Utiliser un DAO pour récupérer l'enregistrement médical en fonction du prénom et nom
-        return medicalRecordDAO.getMedicalRecordByPerson(person.getFirstName(), person.getLastName());
-    }
+        if (person == null) {
+            throw new IllegalArgumentException("La personne ne peut pas être null");
+        }
 
+        try {
+            return medicalRecordDAO.getMedicalRecordByPerson(person.getFirstName(), person.getLastName());
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération de l'enregistrement médical pour la personne " + person.getFirstName() + " " + person.getLastName(), e);
+        }
+    }
 }
