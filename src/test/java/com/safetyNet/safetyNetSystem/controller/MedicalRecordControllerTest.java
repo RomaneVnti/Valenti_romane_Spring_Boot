@@ -8,13 +8,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-import java.util.List;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Classe de test unitaire pour le contrôleur MedicalRecordController.
+ * Teste les différentes méthodes de ce contrôleur liées à la gestion des dossiers médicaux.
+ */
 class MedicalRecordControllerTest {
 
     @Mock
@@ -23,11 +27,19 @@ class MedicalRecordControllerTest {
     @InjectMocks
     private MedicalRecordController medicalRecordController;
 
+    /**
+     * Initialisation avant chaque test.
+     * Ouvre les mocks nécessaires pour les tests.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Teste la méthode d'ajout d'un dossier médical.
+     * Vérifie que le service est appelé et que la réponse est correcte.
+     */
     @Test
     void testAddMedicalRecord() {
         // Mock d'entrée
@@ -44,6 +56,10 @@ class MedicalRecordControllerTest {
         assertEquals("Medical record added successfully.", response.getBody());
     }
 
+    /**
+     * Teste la mise à jour réussie d'un dossier médical.
+     * Vérifie que le service est appelé et que la réponse est correcte.
+     */
     @Test
     void testUpdateMedicalRecord_Success() {
         // Mock d'entrée
@@ -64,6 +80,10 @@ class MedicalRecordControllerTest {
         assertEquals("Medical record updated successfully.", response.getBody());
     }
 
+    /**
+     * Teste la mise à jour d'un dossier médical qui n'existe pas.
+     * Vérifie que la réponse est correcte pour un dossier introuvable.
+     */
     @Test
     void testUpdateMedicalRecord_NotFound() {
         // Mock d'entrée
@@ -84,6 +104,10 @@ class MedicalRecordControllerTest {
         assertNull(response.getBody());
     }
 
+    /**
+     * Teste la suppression réussie d'un dossier médical.
+     * Vérifie que le service est appelé et que la réponse est correcte.
+     */
     @Test
     void testDeleteMedicalRecord_Success() {
         // Mock d'entrée
@@ -102,6 +126,10 @@ class MedicalRecordControllerTest {
         assertEquals("Medical record deleted successfully.", response.getBody());
     }
 
+    /**
+     * Teste la suppression d'un dossier médical qui n'existe pas.
+     * Vérifie que la réponse est correcte pour un dossier introuvable.
+     */
     @Test
     void testDeleteMedicalRecord_NotFound() {
         // Mock d'entrée

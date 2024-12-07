@@ -7,11 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.safetyNet.safetyNetSystem.dto.FirestationResponse;
-import com.safetyNet.safetyNetSystem.dto.FirestationResponseNoCount;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller pour gérer les opérations liées aux casernes de pompiers.
+ */
 @RestController
 @RequestMapping("/firestation")
 public class FirestationController {
@@ -24,7 +25,12 @@ public class FirestationController {
         this.firestationService = firestationService;
     }
 
-    // Ajouter une caserne/adresse
+    /**
+     * Ajouter une nouvelle caserne de pompiers pour une adresse.
+     *
+     * @param firestation les informations de la caserne à ajouter
+     * @return une réponse HTTP indiquant si l'ajout a réussi
+     */
     @PostMapping
     public ResponseEntity<String> addFirestation(@RequestBody Firestation firestation) {
         logger.debug("Received request to add firestation: {}", firestation);
@@ -39,7 +45,13 @@ public class FirestationController {
         }
     }
 
-    // Mettre à jour le numéro de caserne d'une adresse
+    /**
+     * Mettre à jour le numéro de caserne d'une adresse existante.
+     *
+     * @param address l'adresse de la caserne à mettre à jour
+     * @param firestation les nouvelles informations de la caserne
+     * @return une réponse HTTP indiquant si la mise à jour a réussi
+     */
     @PutMapping("/{address}")
     public ResponseEntity<String> updateFirestation(
             @PathVariable String address,
@@ -63,7 +75,12 @@ public class FirestationController {
         }
     }
 
-    // Supprimer une caserne/adresse
+    /**
+     * Supprimer la caserne d'une adresse donnée.
+     *
+     * @param address l'adresse de la caserne à supprimer
+     * @return une réponse HTTP indiquant si la suppression a réussi
+     */
     @DeleteMapping("/{address}")
     public ResponseEntity<String> deleteFirestation(@PathVariable String address) {
         logger.debug("Received request to delete firestation for address: {}", address);
@@ -84,7 +101,12 @@ public class FirestationController {
         }
     }
 
-    // Récupérer les personnes couvertes par une caserne
+    /**
+     * Récupérer les personnes couvertes par une caserne de pompiers donnée.
+     *
+     * @param stationNumber le numéro de la caserne
+     * @return la réponse contenant les personnes couvertes par la caserne
+     */
     @GetMapping
     public FirestationResponse getPersonsCoveredByStation(@RequestParam String stationNumber) {
         logger.debug("Received request to get persons covered by firestation with stationNumber: {}", stationNumber);
@@ -95,7 +117,7 @@ public class FirestationController {
             return response;
         } catch (Exception e) {
             logger.error("Error occurred while retrieving persons covered by firestation with stationNumber: {}", stationNumber, e);
-            return null;  // or an appropriate error response
+            return null;
         }
     }
 }

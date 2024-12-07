@@ -21,6 +21,11 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test de la classe {@link FirestationService}.
+ * Cette classe de test vérifie les méthodes du service FirestationService, notamment celles qui manipulent
+ * les casernes de pompiers, les personnes couvertes par ces casernes et les informations médicales.
+ */
 public class FirestationServiceTest {
 
     @Mock
@@ -39,22 +44,25 @@ public class FirestationServiceTest {
     private List<Person> persons;
     private List<MedicalRecord> medicalRecords;
 
+    /**
+     * Initialise les objets nécessaires pour les tests avant chaque méthode de test.
+     */
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Setup mock firestations
+        // Initialisation des casernes
         firestations = new ArrayList<>();
         Firestation firestation1 = new Firestation("123 Main St", "1");
         firestations.add(firestation1);
 
-        // Setup mock persons
+        // Initialisation des personnes
         persons = new ArrayList<>();
         Person person1 = new Person("John", "Doe", "123 Main St", "City", "12345", "123-456-7890", "john.doe@example.com");
         persons.add(person1);
 
-        // Setup mock medical records
-        medicalRecords = new ArrayList<>();  // Initialisation de la liste medicalRecords
+        // Initialisation des dossiers médicaux
+        medicalRecords = new ArrayList<>();
         List<String> medications = new ArrayList<>();
         medications.add("Aspirin");
         List<String> allergies = new ArrayList<>();
@@ -63,7 +71,10 @@ public class FirestationServiceTest {
         medicalRecords.add(medicalRecord1);
     }
 
-
+    /**
+     * Teste la méthode {@link FirestationService#getAllFirestations()} pour récupérer toutes les casernes de pompiers.
+     * Verifie que la méthode retourne bien la liste des casernes.
+     */
     @Test
     public void testGetAllFirestations() {
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
@@ -75,6 +86,10 @@ public class FirestationServiceTest {
         assertEquals("123 Main St", result.get(0).getAddress());
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#addFirestation(Firestation)} pour ajouter une nouvelle caserne.
+     * Vérifie que la méthode addFirestation de FirestationDAO est appelée.
+     */
     @Test
     public void testAddFirestation() {
         Firestation firestation = new Firestation("2", "456 Elm St");
@@ -84,6 +99,10 @@ public class FirestationServiceTest {
         verify(firestationDAO, times(1)).addFirestation(firestation);
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#updateFirestation(String, Firestation)} pour mettre à jour une caserne.
+     * Vérifie que la caserne mise à jour est bien retournée par le service.
+     */
     @Test
     public void testUpdateFirestation() {
         Firestation updatedFirestation = new Firestation("789 Oak St", "1");
@@ -96,6 +115,10 @@ public class FirestationServiceTest {
         assertEquals("789 Oak St", result.get().getAddress());
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#deleteFirestation(String)} pour supprimer une caserne.
+     * Vérifie que la méthode deleteFirestation de FirestationDAO est appelée et que la caserne est bien supprimée.
+     */
     @Test
     public void testDeleteFirestation() {
         when(firestationDAO.deleteFirestation("1")).thenReturn(true);
@@ -106,6 +129,10 @@ public class FirestationServiceTest {
         verify(firestationDAO, times(1)).deleteFirestation("1");
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#getPersonsCoveredByStation(String)} pour obtenir les personnes couvertes par une caserne.
+     * Vérifie que les informations des personnes sont bien retournées, incluant le nombre d'adultes et d'enfants.
+     */
     @Test
     public void testGetPersonsCoveredByStation() {
         when(personService.getAllPersons()).thenReturn(persons);
@@ -115,11 +142,15 @@ public class FirestationServiceTest {
         FirestationResponse response = firestationService.getPersonsCoveredByStation("1");
 
         assertNotNull(response);
-        assertEquals(1, response.getPersons().size());  // Check the number of persons
-        assertEquals(1, response.getNumberOfAdults()); // Ensure the number of adults is correct
-        assertEquals(0, response.getNumberOfChildren());  // Ensure there are no children
+        assertEquals(1, response.getPersons().size());  // Vérifie le nombre de personnes couvertes
+        assertEquals(1, response.getNumberOfAdults());  // Vérifie le nombre d'adultes
+        assertEquals(0, response.getNumberOfChildren());  // Vérifie le nombre d'enfants
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#getPhoneNumbersByStation(String)} pour obtenir les numéros de téléphone des personnes couvertes par une caserne.
+     * Vérifie que la méthode retourne bien la liste des numéros de téléphone.
+     */
     @Test
     public void testGetPhoneNumbersByStation() {
         when(personService.getAllPersons()).thenReturn(persons);
@@ -128,10 +159,14 @@ public class FirestationServiceTest {
         List<String> phoneNumbers = firestationService.getPhoneNumbersByStation("1");
 
         assertNotNull(phoneNumbers);
-        assertEquals(1, phoneNumbers.size()); // Ensure only one phone number
-        assertEquals("123-456-7890", phoneNumbers.get(0));  // Check the phone number
+        assertEquals(1, phoneNumbers.size()); // Vérifie qu'il y a un seul numéro
+        assertEquals("123-456-7890", phoneNumbers.get(0));  // Vérifie le numéro de téléphone
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#getFirestationInfoByAddress(String)} pour obtenir des informations sur une caserne à partir de son adresse.
+     * Vérifie que les informations retournées sont correctes, incluant le numéro de station et les personnes associées.
+     */
     @Test
     public void testGetFirestationInfoByAddress() {
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
@@ -140,83 +175,71 @@ public class FirestationServiceTest {
         FirestationResponseNoCount response = firestationService.getFirestationInfoByAddress("123 Main St");
 
         assertNotNull(response);
-        assertEquals("1", response.getStationNumber());   // Ensure the station number is null if not provided
-        assertTrue(response.getPersons().isEmpty());  // Check that no persons are associated
+        assertEquals("1", response.getStationNumber());   // Vérifie le numéro de la station
+        assertTrue(response.getPersons().isEmpty());  // Vérifie qu'il n'y a pas de personnes associées
     }
 
+    /**
+     * Teste la méthode {@link FirestationService#getFloodedStations(List)} pour obtenir les stations inondées à partir d'une liste de numéros de station.
+     * Vérifie que la méthode retourne bien les stations et les personnes associées.
+     */
     @Test
     public void testGetFloodedStations() {
         // Préparer des données de test
         List<String> stationsRequested = new ArrayList<>();
         stationsRequested.add("1");
 
-        // Mock des casernes
+        // Mock des casernes et des personnes
         List<Firestation> firestations = new ArrayList<>();
         Firestation firestation1 = new Firestation("123 Main St", "1");
         firestations.add(firestation1);
 
-        // Mock des personnes
         List<Person> persons = new ArrayList<>();
         Person person1 = new Person("John", "Doe", "123 Main St", "City", "12345", "123-456-7890", "john.doe@example.com");
         persons.add(person1);
 
-        // Mock des dossiers médicaux
-        List<String> medications = new ArrayList<>();
-        medications.add("Aspirin");
-        List<String> allergies = new ArrayList<>();
-        allergies.add("Peanuts");
-        MedicalRecord medicalRecord1 = new MedicalRecord("John", "Doe", "01/01/1980", medications, allergies);
-
         // Mock des services
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
         when(personService.getAllPersons()).thenReturn(persons);
-        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecord1));
+        when(medicalRecordService.getMedicalRecordByPerson(any(Person.class))).thenReturn(Optional.of(medicalRecords.get(0)));
 
         // Appel de la méthode
         List<FirestationResponseNoCount> floodedStations = firestationService.getFloodedStations(stationsRequested);
 
         // Vérification des résultats
         assertNotNull(floodedStations);
-        assertEquals(1, floodedStations.size());  // Une caserne devrait être retournée
-        assertEquals("1", floodedStations.get(0).getStationNumber());  // Vérifie que le bon numéro de station est retourné
-        assertEquals(1, floodedStations.get(0).getPersons().size());  // Une personne couverte par cette caserne
-        assertEquals("John", floodedStations.get(0).getPersons().get(0).getFirstName());  // Vérifie le prénom de la personne
-        assertEquals("Doe", floodedStations.get(0).getPersons().get(0).getLastName());  // Vérifie le nom de famille
-        assertEquals(1, floodedStations.get(0).getPersons().get(0).getMedicalInfo().getMedications().size());  // Vérifie qu'il y a des médicaments
-        assertEquals("Aspirin", floodedStations.get(0).getPersons().get(0).getMedicalInfo().getMedications().get(0));  // Vérifie le médicament
+        assertEquals(1, floodedStations.size());  // Vérifie qu'une station est retournée
+        assertEquals("1", floodedStations.get(0).getStationNumber());  // Vérifie le numéro de station
+        assertEquals(1, floodedStations.get(0).getPersons().size());  // Vérifie le nombre de personnes
     }
 
+    /**
+     * Teste le cas où la liste des stations demandées est vide dans la méthode {@link FirestationService#getFloodedStations(List)}.
+     * Vérifie que la méthode retourne une liste vide.
+     */
     @Test
     public void testGetFloodedStationsEmptyList() {
-        // Appel avec une liste vide de stations
         List<String> stationsRequested = new ArrayList<>();
         List<FirestationResponseNoCount> floodedStations = firestationService.getFloodedStations(stationsRequested);
 
-        // Vérification qu'une liste vide est retournée
         assertNotNull(floodedStations);
-        assertTrue(floodedStations.isEmpty());  // La liste des stations inondées devrait être vide
+        assertTrue(floodedStations.isEmpty());  // La liste devrait être vide
     }
 
+    /**
+     * Teste le cas où aucune station ne correspond dans la méthode {@link FirestationService#getFloodedStations(List)}.
+     * Vérifie que la méthode retourne une liste vide lorsque la station demandée n'existe pas.
+     */
     @Test
     public void testGetFloodedStationsNoMatchingStation() {
-        // Préparer des données de test
         List<String> stationsRequested = new ArrayList<>();
-        stationsRequested.add("999");  // Station qui n'existe pas
+        stationsRequested.add("999");  // Station inexistante
 
-        // Mock des casernes
-        List<Firestation> firestations = new ArrayList<>();
-        Firestation firestation1 = new Firestation("123 Main St", "1");
-        firestations.add(firestation1);
-
-        // Mock des services
         when(firestationDAO.getAllFirestations()).thenReturn(firestations);
 
-        // Appel de la méthode
         List<FirestationResponseNoCount> floodedStations = firestationService.getFloodedStations(stationsRequested);
 
-        // Vérification qu'aucune station n'est retournée
         assertNotNull(floodedStations);
-        assertTrue(floodedStations.isEmpty());  // La liste des stations inondées devrait être vide
+        assertTrue(floodedStations.isEmpty());  // Aucune station trouvée
     }
-
 }

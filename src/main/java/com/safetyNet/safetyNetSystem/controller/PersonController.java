@@ -8,13 +8,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.safetyNet.safetyNetSystem.dto.ChildrenAlertResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Contrôleur pour gérer les opérations liées aux personnes dans le système.
+ */
 @RestController
 @RequestMapping("")
 public class PersonController {
@@ -27,7 +28,12 @@ public class PersonController {
         this.personService = personService;
     }
 
-    // Obtenir toutes les personnes sur la liste
+    /**
+     * Récupérer toutes les personnes dans le système.
+     *
+     * @return une liste de toutes les personnes
+     * @throws IOException si une erreur se produit lors de la récupération des données
+     */
     @GetMapping("/person")
     public List<Person> getAllPersons() throws IOException {
         logger.debug("Received request to get all persons");
@@ -37,7 +43,13 @@ public class PersonController {
         return persons;
     }
 
-    // Ajouter une nouvelle personne
+    /**
+     * Ajouter une nouvelle personne dans le système.
+     *
+     * @param person l'objet représentant la personne à ajouter
+     * @return une réponse indiquant si l'ajout a réussi
+     * @throws IOException si une erreur se produit lors de l'ajout
+     */
     @PostMapping("/person")
     public ResponseEntity<String> addPerson(@RequestBody Person person) throws IOException {
         logger.debug("Received request to add person: {}", person);
@@ -47,7 +59,15 @@ public class PersonController {
         return ResponseEntity.ok("Person added successfully.");
     }
 
-    // Mettre à jour une personne existante
+    /**
+     * Mettre à jour les informations d'une personne existante.
+     *
+     * @param firstName le prénom de la personne à mettre à jour
+     * @param lastName le nom de famille de la personne à mettre à jour
+     * @param updatedPerson l'objet représentant les nouvelles informations de la personne
+     * @return une réponse indiquant si la mise à jour a réussi
+     * @throws IOException si une erreur se produit lors de la mise à jour
+     */
     @PutMapping("/person/{firstName}/{lastName}")
     public ResponseEntity<String> updatePerson(
             @PathVariable String firstName,
@@ -66,7 +86,14 @@ public class PersonController {
         }
     }
 
-    // Supprimer une personne
+    /**
+     * Supprimer une personne du système.
+     *
+     * @param firstName le prénom de la personne à supprimer
+     * @param lastName le nom de famille de la personne à supprimer
+     * @return une réponse indiquant si la suppression a réussi
+     * @throws IOException si une erreur se produit lors de la suppression
+     */
     @DeleteMapping("/person/{firstName}/{lastName}")
     public ResponseEntity<String> deletePerson(
             @PathVariable String firstName,
@@ -84,6 +111,13 @@ public class PersonController {
         }
     }
 
+    /**
+     * Récupérer les alertes concernant les enfants d'une adresse spécifique.
+     *
+     * @param address l'adresse pour laquelle récupérer les alertes enfants
+     * @return une réponse contenant les alertes pour les enfants à cette adresse
+     * @throws IOException si une erreur se produit lors de la récupération des alertes
+     */
     @GetMapping("/childAlert")
     public ChildrenAlertResponse getChildAlert(@RequestParam String address) throws IOException {
         logger.debug("Received request to get child alert for address: {}", address);
@@ -93,7 +127,12 @@ public class PersonController {
         return response;
     }
 
-    // Route pour récupérer les informations des personnes par nom de famille
+    /**
+     * Récupérer les informations des personnes par leur nom de famille.
+     *
+     * @param lastName le nom de famille pour lequel récupérer les informations
+     * @return une liste des informations des personnes ayant ce nom de famille
+     */
     @GetMapping("/personInfo")
     public List<PersonInfo> getPersonInfoByLastName(@RequestParam("lastName") String lastName) {
         logger.debug("Received request to get person info for last name: {}", lastName);
@@ -104,11 +143,16 @@ public class PersonController {
             return personInfo;
         } catch (Exception e) {
             logger.error("Error occurred while retrieving person info for last name: {}", lastName, e);
-            return null;  // Vous pouvez aussi retourner une réponse personnalisée en cas d'erreur
+            return null; // Vous pouvez aussi retourner une réponse personnalisée en cas d'erreur
         }
     }
 
-    // Route pour récupérer les emails des habitants d'une ville
+    /**
+     * Récupérer les emails des habitants d'une ville donnée.
+     *
+     * @param city le nom de la ville pour laquelle récupérer les emails
+     * @return une liste des emails des habitants de la ville
+     */
     @GetMapping("/communityEmail")
     public List<String> getEmailsByCity(@RequestParam("city") String city) {
         logger.debug("Received request to get emails for city: {}", city);
@@ -119,7 +163,7 @@ public class PersonController {
             return emails;
         } catch (Exception e) {
             logger.error("Error occurred while retrieving emails for city: {}", city, e);
-            return null;  // Vous pouvez aussi retourner une réponse personnalisée en cas d'erreur
+            return null; // Vous pouvez aussi retourner une réponse personnalisée en cas d'erreur
         }
     }
 }

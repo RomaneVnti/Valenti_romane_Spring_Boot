@@ -20,22 +20,42 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * Classe de test unitaire pour la classe {@link PersonService}.
+ * Utilise Mockito pour simuler les dépendances et tester les méthodes du service {@link PersonService}.
+ */
 class PersonServiceTest {
 
+    /**
+     * Mock de la classe {@link PersonDAO} pour simuler l'accès aux données des personnes.
+     */
     @Mock
     private PersonDAO personDAO;
 
+    /**
+     * Mock de la classe {@link MedicalRecordService} pour simuler la récupération des informations médicales.
+     */
     @Mock
     private MedicalRecordService medicalRecordService;
 
+    /**
+     * Service à tester, avec les mocks injectés.
+     */
     @InjectMocks
     private PersonService personService;
 
+    /**
+     * Initialisation des mocks avant chaque test.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getAllPersons()}.
+     * Vérifie que la méthode retourne bien la liste de toutes les personnes.
+     */
     @Test
     void testGetAllPersons() {
         // Arrange
@@ -53,6 +73,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).getAllPersons();
     }
 
+    /**
+     * Teste la méthode {@link PersonService#addPerson(Person)}.
+     * Vérifie que la méthode ajoute correctement une nouvelle personne.
+     */
     @Test
     void testAddPerson() {
         // Arrange
@@ -65,6 +89,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).addPerson(newPerson);
     }
 
+    /**
+     * Teste la méthode {@link PersonService#updatePerson(String, String, Person)}.
+     * Vérifie que la méthode met à jour correctement une personne existante.
+     */
     @Test
     void testUpdatePerson() {
         // Arrange
@@ -80,6 +108,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).updatePerson("John", "Doe", updatedPerson);
     }
 
+    /**
+     * Teste la méthode {@link PersonService#deletePerson(String, String)}.
+     * Vérifie que la méthode supprime correctement une personne.
+     */
     @Test
     void testDeletePerson() {
         // Arrange
@@ -93,6 +125,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).deletePerson("John", "Doe");
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getPersonByFirstNameAndLastName(String, String)}.
+     * Vérifie que la méthode retourne bien une personne correspondant aux critères.
+     */
     @Test
     void testGetPersonByFirstNameAndLastName() {
         // Arrange
@@ -108,6 +144,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).getAllPersons();
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getPersonsWithMedicalInfoByAddress(String, boolean)}.
+     * Vérifie que la méthode retourne bien les informations médicales des personnes selon l'adresse donnée.
+     */
     @Test
     void testGetPersonsWithMedicalInfoByAddress() {
         // Arrange
@@ -126,6 +166,10 @@ class PersonServiceTest {
         verify(medicalRecordService, times(1)).getMedicalRecordByPerson(person);
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getPersonInfoByLastName(String)}.
+     * Vérifie que la méthode retourne bien les informations des personnes avec le nom de famille spécifié.
+     */
     @Test
     void testGetPersonInfoByLastName() {
         // Arrange
@@ -152,6 +196,10 @@ class PersonServiceTest {
         verify(medicalRecordService, times(2)).getMedicalRecordByPerson(any(Person.class));
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getEmailsByCity(String)}.
+     * Vérifie que la méthode retourne bien les emails des personnes d'une ville donnée.
+     */
     @Test
     void testGetEmailsByCity() {
         // Arrange
@@ -170,6 +218,10 @@ class PersonServiceTest {
         verify(personDAO, times(1)).getAllPersons();
     }
 
+    /**
+     * Teste la méthode {@link PersonService#getChildAlertByAddress(String)}.
+     * Vérifie que la méthode retourne bien la liste des enfants par adresse.
+     */
     @Test
     void testGetChildAlertByAddress() {
         // Arrange
@@ -188,7 +240,4 @@ class PersonServiceTest {
         assertThat(result.getAdults()).isEmpty();
         verify(personDAO, times(1)).getAllPersons();
     }
-
-
-
 }

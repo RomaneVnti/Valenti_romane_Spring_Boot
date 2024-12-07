@@ -7,9 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller pour gérer les opérations liées aux dossiers médicaux.
+ */
 @RestController
 @RequestMapping("/medicalRecord")
 public class MedicalRecordController {
@@ -22,7 +24,12 @@ public class MedicalRecordController {
         this.medicalRecordService = medicalRecordService;
     }
 
-    // Ajouter un dossier médical
+    /**
+     * Ajouter un nouveau dossier médical.
+     *
+     * @param medicalRecord les informations du dossier médical à ajouter
+     * @return une réponse HTTP indiquant si l'ajout a réussi
+     */
     @PostMapping
     public ResponseEntity<String> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
         logger.debug("Received request to add medical record: {}", medicalRecord);
@@ -37,7 +44,14 @@ public class MedicalRecordController {
         }
     }
 
-    // Mettre à jour un dossier médical existant
+    /**
+     * Mettre à jour un dossier médical existant pour une personne donnée.
+     *
+     * @param firstName le prénom de la personne
+     * @param lastName le nom de famille de la personne
+     * @param updatedRecord les nouvelles informations du dossier médical
+     * @return une réponse HTTP indiquant si la mise à jour a réussi
+     */
     @PutMapping("/{firstName}/{lastName}")
     public ResponseEntity<String> updateMedicalRecord(
             @PathVariable String firstName,
@@ -54,7 +68,7 @@ public class MedicalRecordController {
                 return ResponseEntity.ok("Medical record updated successfully.");
             } else {
                 logger.warn("Medical record not found for: {} {}", firstName, lastName);
-                return ResponseEntity.notFound().build(); // Dossier médical non trouvé
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             logger.error("Error occurred while updating medical record for: {} {}", firstName, lastName, e);
@@ -62,7 +76,13 @@ public class MedicalRecordController {
         }
     }
 
-    // Supprimer un dossier médical
+    /**
+     * Supprimer un dossier médical existant pour une personne donnée.
+     *
+     * @param firstName le prénom de la personne
+     * @param lastName le nom de famille de la personne
+     * @return une réponse HTTP indiquant si la suppression a réussi
+     */
     @DeleteMapping("/{firstName}/{lastName}")
     public ResponseEntity<String> deleteMedicalRecord(
             @PathVariable String firstName,
@@ -78,7 +98,7 @@ public class MedicalRecordController {
                 return ResponseEntity.ok("Medical record deleted successfully.");
             } else {
                 logger.warn("Medical record not found for: {} {}", firstName, lastName);
-                return ResponseEntity.notFound().build(); // Dossier médical non trouvé
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             logger.error("Error occurred while deleting medical record for: {} {}", firstName, lastName, e);

@@ -16,12 +16,20 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Classe de test unitaire pour le service {@link MedicalRecordService}.
+ * Elle vérifie que les méthodes du service fonctionnent comme prévu en simulant les interactions avec la couche DAO.
+ */
 class MedicalRecordServiceTest {
 
     private MedicalRecordDAO medicalRecordDAO;
     private MedicalRecordService medicalRecordService;
     private DataLoaderUtil dataLoaderUtil;
 
+    /**
+     * Méthode exécutée avant chaque test pour initialiser les objets nécessaires.
+     * Elle crée des mock pour le DAO et le DataLoaderUtil, puis initialise le service {@link MedicalRecordService}.
+     */
     @BeforeEach
     void setUp() {
         medicalRecordDAO = mock(MedicalRecordDAO.class);
@@ -29,6 +37,10 @@ class MedicalRecordServiceTest {
         medicalRecordService = new MedicalRecordService(medicalRecordDAO, dataLoaderUtil);
     }
 
+    /**
+     * Teste la méthode {@link MedicalRecordService#getAllMedicalRecords()}.
+     * Vérifie que la méthode retourne bien la liste des enregistrements médicaux lorsque le DAO retourne des données valides.
+     */
     @Test
     void testGetAllMedicalRecords() {
         // Création d'exemples de données simulées
@@ -50,6 +62,10 @@ class MedicalRecordServiceTest {
         assertEquals("Jane", result.get(1).getFirstName());
     }
 
+    /**
+     * Teste la méthode {@link MedicalRecordService#addMedicalRecord(MedicalRecord)}.
+     * Vérifie que l'enregistrement médical est ajouté correctement via le DAO.
+     */
     @Test
     void testAddMedicalRecord() {
         // Création d'un enregistrement médical à ajouter
@@ -62,6 +78,10 @@ class MedicalRecordServiceTest {
         verify(medicalRecordDAO, times(1)).addMedicalRecord(medicalRecord);
     }
 
+    /**
+     * Teste la méthode {@link MedicalRecordService#updateMedicalRecord(String, String, MedicalRecord)}.
+     * Vérifie que l'enregistrement médical est bien mis à jour dans le DAO.
+     */
     @Test
     void testUpdateMedicalRecord() {
         // Arrange: Création de l'enregistrement médical existant et de la mise à jour
@@ -78,6 +98,10 @@ class MedicalRecordServiceTest {
         assertEquals("Paracetamol", result.get().getMedications().get(1));  // Vérifie que la mise à jour a bien eu lieu
     }
 
+    /**
+     * Teste la méthode {@link MedicalRecordService#deleteMedicalRecord(String, String)}.
+     * Vérifie que l'enregistrement médical est bien supprimé du DAO.
+     */
     @Test
     void testDeleteMedicalRecord() {
         // Simuler le comportement du DAO pour la suppression
@@ -91,6 +115,10 @@ class MedicalRecordServiceTest {
         verify(medicalRecordDAO, times(1)).deleteMedicalRecord("John", "Doe");
     }
 
+    /**
+     * Teste la méthode {@link MedicalRecordService#getMedicalRecordByPerson(Person)}.
+     * Vérifie que l'enregistrement médical d'une personne est récupéré correctement depuis le DAO.
+     */
     @Test
     void testGetMedicalRecordByPerson() {
         // Création d'une personne et d'un enregistrement médical

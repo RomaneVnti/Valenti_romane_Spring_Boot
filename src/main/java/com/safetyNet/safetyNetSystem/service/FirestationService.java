@@ -39,6 +39,11 @@ public class FirestationService {
         this.personService = personService;
     }
 
+    /**
+     * Récupère toutes les casernes de pompiers.
+     *
+     * @return une liste de toutes les casernes de pompiers.
+     */
     public List<Firestation> getAllFirestations() {
         logger.info("Fetching all firestations");
         List<Firestation> firestations = firestationDAO.getAllFirestations();
@@ -46,12 +51,24 @@ public class FirestationService {
         return firestations;
     }
 
+    /**
+     * Ajoute une nouvelle caserne de pompiers.
+     *
+     * @param firestation la caserne de pompiers à ajouter.
+     */
     public void addFirestation(Firestation firestation) {
         logger.info("Adding a new firestation at address: {}", firestation.getAddress());
         firestationDAO.addFirestation(firestation);
         logger.info("Firestation added successfully");
     }
 
+    /**
+     * Met à jour une caserne de pompiers existante.
+     *
+     * @param address l'adresse de la caserne à mettre à jour.
+     * @param updatedFirestation les nouvelles informations de la caserne.
+     * @return l'objet Firestation mis à jour, ou un Optional vide si non trouvé.
+     */
     public Optional<Firestation> updateFirestation(String address, Firestation updatedFirestation) {
         logger.info("Updating firestation at address: {}", address);
         Optional<Firestation> updated = firestationDAO.updateFirestation(address, updatedFirestation);
@@ -63,6 +80,12 @@ public class FirestationService {
         return updated;
     }
 
+    /**
+     * Supprime une caserne de pompiers à l'adresse spécifiée.
+     *
+     * @param address l'adresse de la caserne à supprimer.
+     * @return true si la suppression a réussi, false sinon.
+     */
     public boolean deleteFirestation(String address) {
         logger.info("Deleting firestation at address: {}", address);
         boolean isDeleted = firestationDAO.deleteFirestation(address);
@@ -74,6 +97,12 @@ public class FirestationService {
         return isDeleted;
     }
 
+    /**
+     * Récupère les personnes couvertes par une caserne de pompiers en fonction du numéro de la caserne.
+     *
+     * @param stationNumber le numéro de la caserne de pompiers.
+     * @return une réponse contenant les informations des personnes couvertes par la caserne.
+     */
     public FirestationResponse getPersonsCoveredByStation(String stationNumber) {
         logger.info("Fetching persons covered by firestation with station number: {}", stationNumber);
 
@@ -125,6 +154,12 @@ public class FirestationService {
         return new FirestationResponse(personInfoList, numberOfAdults, numberOfChildren);
     }
 
+    /**
+     * Récupère les numéros de téléphone des personnes couvertes par une caserne de pompiers en fonction du numéro de la caserne.
+     *
+     * @param stationNumber le numéro de la caserne de pompiers.
+     * @return une liste des numéros de téléphone des personnes couvertes par la caserne.
+     */
     public List<String> getPhoneNumbersByStation(String stationNumber) {
         logger.info("Fetching phone numbers for persons covered by firestation with station number: {}", stationNumber);
 
@@ -146,6 +181,12 @@ public class FirestationService {
         return phoneNumbers;
     }
 
+    /**
+     * Récupère les informations d'une caserne de pompiers à partir de l'adresse.
+     *
+     * @param address l'adresse de la caserne de pompiers.
+     * @return les informations de la caserne ainsi que les personnes couvertes, ou une réponse vide si la caserne n'est pas trouvée.
+     */
     public FirestationResponseNoCount getFirestationInfoByAddress(String address) {
         logger.info("Fetching firestation info for address: {}", address);
 
@@ -167,6 +208,12 @@ public class FirestationService {
         return new FirestationResponseNoCount(personsInfo, stationNumber);
     }
 
+    /**
+     * Récupère les casernes de pompiers inondées en fonction des numéros de station.
+     *
+     * @param stations une liste de numéros de stations de pompiers.
+     * @return une liste des casernes inondées avec les informations des personnes couvertes.
+     */
     public List<FirestationResponseNoCount> getFloodedStations(List<String> stations) {
         logger.info("Fetching flooded stations for station numbers: {}", stations);
 

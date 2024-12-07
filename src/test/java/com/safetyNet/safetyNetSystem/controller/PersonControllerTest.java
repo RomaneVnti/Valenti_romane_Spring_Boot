@@ -12,21 +12,17 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.safetyNet.safetyNetSystem.dto.ChildInfo;
 
-
-
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
+/**
+ * Test unitaire de la classe PersonController.
+ * Les tests vérifient les fonctionnalités de gestion des personnes telles que l'ajout, la mise à jour, la suppression et la récupération d'informations.
+ */
 class PersonControllerTest {
 
     @Mock
@@ -40,7 +36,12 @@ class PersonControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // Test pour récupérer toutes les personnes
+    /**
+     * Test pour récupérer toutes les personnes.
+     * Vérifie que la méthode `getAllPersons()` retourne la liste correcte de personnes.
+     *
+     * @throws IOException si une erreur se produit lors de la récupération des données.
+     */
     @Test
     void testGetAllPersons() throws IOException {
         Person person1 = new Person();
@@ -54,7 +55,12 @@ class PersonControllerTest {
         assertEquals(mockPersons, response);
     }
 
-    // Test pour ajouter une nouvelle personne
+    /**
+     * Test pour ajouter une nouvelle personne.
+     * Vérifie que l'ajout d'une personne retourne la réponse correcte.
+     *
+     * @throws IOException si une erreur se produit lors de l'ajout de la personne.
+     */
     @Test
     void testAddPerson() throws IOException {
         Person person = new Person();
@@ -64,7 +70,12 @@ class PersonControllerTest {
         assertEquals("Person added successfully.", response.getBody());
     }
 
-    // Test pour mettre à jour une personne existante
+    /**
+     * Test pour mettre à jour une personne existante.
+     * Vérifie que la mise à jour d'une personne retourne la réponse correcte.
+     *
+     * @throws IOException si une erreur se produit lors de la mise à jour de la personne.
+     */
     @Test
     void testUpdatePerson() throws IOException {
         String firstName = "John";
@@ -80,7 +91,12 @@ class PersonControllerTest {
         assertEquals("Person updated successfully.", response.getBody());
     }
 
-    // Test pour supprimer une personne
+    /**
+     * Test pour supprimer une personne.
+     * Vérifie que la suppression d'une personne retourne la réponse correcte.
+     *
+     * @throws IOException si une erreur se produit lors de la suppression de la personne.
+     */
     @Test
     void testDeletePerson() throws IOException {
         String firstName = "John";
@@ -95,13 +111,18 @@ class PersonControllerTest {
         assertEquals("Person deleted successfully.", response.getBody());
     }
 
-    // Test pour récupérer les alertes enfants par adresse
+    /**
+     * Test pour récupérer les alertes enfants par adresse.
+     * Vérifie que la méthode `getChildAlert()` retourne les alertes d'enfants et d'adultes pour une adresse donnée.
+     *
+     * @throws IOException si une erreur se produit lors de la récupération des alertes.
+     */
     @Test
     void testGetChildAlert() throws IOException {
         String address = "123 Main St";
 
         // Créez des listes simulées pour les enfants et les adultes
-        ChildInfo child1 = new ChildInfo("Johnny", "Doe", 5); // Assurez-vous que les types sont corrects
+        ChildInfo child1 = new ChildInfo("Johnny", "Doe", 5);
         ChildInfo child2 = new ChildInfo("Sally", "Doe", 8);
         List<ChildInfo> children = Arrays.asList(child1, child2);
 
@@ -122,9 +143,10 @@ class PersonControllerTest {
         assertEquals(mockResponse, response);
     }
 
-
-
-    // Test pour récupérer les informations des personnes par nom de famille
+    /**
+     * Test pour récupérer les informations des personnes par nom de famille.
+     * Vérifie que la méthode `getPersonInfoByLastName()` retourne les informations des personnes correspondant à un nom de famille donné.
+     */
     @Test
     void testGetPersonInfoByLastName() {
         String lastName = "Doe";
@@ -146,8 +168,10 @@ class PersonControllerTest {
         assertEquals(mockResponse, response);
     }
 
-
-    // Test pour récupérer les emails des habitants d'une ville
+    /**
+     * Test pour récupérer les emails des habitants d'une ville.
+     * Vérifie que la méthode `getEmailsByCity()` retourne les emails des personnes d'une ville donnée.
+     */
     @Test
     void testGetEmailsByCity() {
         String city = "Paris";
